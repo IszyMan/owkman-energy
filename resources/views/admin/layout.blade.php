@@ -45,9 +45,14 @@
         color: white;
     }
 
+    .sidebar a.active {
+        background: #374151;
+        color: white;
+    }
+
     /* Main content */
     .main {
-        margin-left: 260px; /* 🔥 increased spacing from sidebar */
+        margin-left: 280px; 
         padding: 30px;
         width: calc(100% - 260px);
         min-height: 100vh;
@@ -117,6 +122,19 @@
         color: white;
     }
 
+    .logout {
+        
+      width: 100%;
+      background: #ef4444;
+      border: none;
+      color: white;
+      padding: 12px;
+      margin-top: 20px;
+      padding-left: 20px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
 </style>
 </head>
 <body>
@@ -124,14 +142,20 @@
     <div class="sidebar">
         <h2>⚡ Admin</h2>
 
-        <a href="/admin">Dashboard</a>
+        <a href="/admin" class="{{ request()->is('admin') ? 'active' : '' }}">
+            Dashboard
+        </a>
 
         <!-- CATEGORIES -->
         <div class="dropdown">
             <button class="dropdown-btn">📂 Categories ▾</button>
             <div class="dropdown-container">
-                <a href="/admin/categories">View Categories</a>
-                <a href="/admin/categories/create">Add Category</a>
+                <a href="/admin/categories" class="{{ request()->is('admin/categories') ? 'active' : '' }}">
+                    View Categories
+                </a>
+                <a href="/admin/categories/create" class="{{ request()->is('admin/categories/create') ? 'active' : '' }}">
+                    Add Category
+                </a>
             </div>
         </div>
 
@@ -139,10 +163,24 @@
         <div class="dropdown">
             <button class="dropdown-btn">📦 Products ▾</button>
             <div class="dropdown-container">
-                <a href="/admin/products">View Products</a>
-                <a href="/admin/products/create">Add Product</a>
+                <a href="/admin/products" class="{{ request()->is('admin/products') ? 'active' : '' }}">
+                    View Products
+                </a>
+                <a href="/admin/products/create" class="{{ request()->is('admin/products/create') ? 'active' : '' }}">
+                    Add Product
+                </a>
             </div>
         </div>
+
+
+
+        <form method="POST" action="{{ route('logout') }}">
+        @csrf
+
+        <button type="submit" class="logout">
+             Logout
+        </button>
+    </form>
 
         
     </div>
@@ -158,15 +196,16 @@
    const dropdownBtns = document.querySelectorAll(".dropdown-btn");
 
     dropdownBtns.forEach(btn => {
-        btn.addEventListener("click", function () {
-            const container = this.nextElementSibling;
+        const container = btn.nextElementSibling;
 
-            // toggle visibility
-            if (container.style.display === "block") {
-                container.style.display = "none";
-            } else {
-                container.style.display = "block";
-            }
+        // auto open if active link inside
+        if (container.querySelector(".active")) {
+            container.style.display = "block";
+        }
+
+        btn.addEventListener("click", function () {
+            container.style.display =
+                container.style.display === "block" ? "none" : "block";
         });
     });
 </script>

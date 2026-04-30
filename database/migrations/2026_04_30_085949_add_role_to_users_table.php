@@ -11,11 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('products', function (Blueprint $table) {
-        if (!Schema::hasColumn('products', 'slug')) {
-            $table->string('slug');
-        }
-});
+        Schema::table('users', function (Blueprint $table) {
+            $table->string('role')->default('user');
+        });
     }
 
     /**
@@ -23,7 +21,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('products', function (Blueprint $table) {
+        Schema::table('users', function (Blueprint $table) {
             //
         });
     }
