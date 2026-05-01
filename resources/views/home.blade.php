@@ -2,23 +2,47 @@
 
 @section('content')
 
-<!-- HERO -->
-<section class="hero">
-    <h2>Affordable Solar & Smart Devices</h2>
-    <p>Shop CCTV, Solar Lights, Smart Watches & More</p>
-</section>
-
 <!-- CATEGORIES -->
 <section class="section">
-    <h2>Categories</h2>
+    <h2>Shop by Categories</h2>
 
-    <div class="categories">
-        <div>Solar Lights</div>
-        <div>CCTV</div>
-        <div>Smart Watches</div>
-        <div>Smart Glasses</div>
+    <div class="category-grid">
+        <a href="#" class="cat">📷 CCTV</a>
+        <a href="#" class="cat">☀️ Solar Energy</a>
+        <a href="#" class="cat">⌚ Smart Watches</a>
+        <a href="#" class="cat">🕶️ Smart Glasses</a>
+        <a href="#" class="cat">🔋 Batteries</a>
+        <a href="#" class="cat">⚡ Accessories</a>
     </div>
 </section>
+
+
+<section class="section">
+    <h2>Shop by Categories</h2>
+
+    <div class="category-grid">
+        @foreach($categories as $category)
+
+            @php
+                $icon = '📦'; // default icon
+
+                if ($category->slug == 'cctv') $icon = '📷';
+                elseif ($category->slug == 'solar-energy') $icon = '☀️';
+                elseif ($category->slug == 'smart-watches') $icon = '⌚';
+                elseif ($category->slug == 'smart-glasses') $icon = '🕶️';
+                elseif ($category->slug == 'batteries') $icon = '🔋';
+                elseif ($category->slug == 'accessories') $icon = '⚡';
+            @endphp
+
+            <a href="{{ url('/category/'.$category->slug) }}" class="cat">
+                <span class="icon">{{ $icon }}</span>
+                <span class="name">{{ $category->name }}</span>
+            </a>
+
+        @endforeach
+    </div>
+</section>
+
 
 <!-- PRODUCTS -->
 <section class="section">
@@ -26,6 +50,7 @@
 
     <div class="products">
         @foreach ($products as $product)
+        <a href="{{ url('/product/'.$product->slug) }}" class="card-link">
             <div class="card">
                 <div class="img-box" data-product="{{ $product->id }}">
 
@@ -58,9 +83,55 @@
 
                 <button>Add to Cart</button>
             </div>
+        </a>
         @endforeach
     </div>
 </section>
+
+
+<!-- HERO -->
+<section class="hero-banner">
+    <div class="hero-content">
+        <h1>Power Your Home with Solar & Smart Tech</h1>
+        <p>CCTV • Solar Energy • Smart Devices</p>
+        <button>Shop Now</button>
+    </div>
+</section>
+
+
+
+<!-- TRENDING -->
+<section class="section">
+    <h2>🔥 Trending Products</h2>
+
+    <div class="product-grid">
+        @foreach($products->skip(6)->take(8) as $product)
+            <div class="product-card">
+                <img src="{{ asset('storage/'.$product->images->first()->image ?? 'images/default.png') }}">
+                <h3>{{ $product->name }}</h3>
+                <p>₦{{ number_format($product->price) }}</p>
+            </div>
+        @endforeach
+    </div>
+</section>
+
+
+<!-- PROMO BANNER -->
+<section class="promo">
+    <h2>⚡ 10% OFF Solar Kits This Week</h2>
+</section>
+
+<!-- TRUST SECTION -->
+<section class="trust">
+    <div>🚚 Fast Delivery</div>
+    <div>🔒 Secure Payment</div>
+    <div>🛠️ Installation Support</div>
+    <div>📞 24/7 Support</div>
+</section>
+
+
+
+
 
 
 <script>

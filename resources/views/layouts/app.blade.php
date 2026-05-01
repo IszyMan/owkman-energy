@@ -12,7 +12,7 @@
 
     <!-- NAVBAR -->
     <nav class="navbar">
-        <h1 class="logo">Owkman Energy</h1>
+        <h1 class="logo"><a href="{{ url('/') }}" style="text-decoration:none">Owkman Energy</a></h1>
 
         <form class="search-form">
             <input type="text" placeholder="Search products...">

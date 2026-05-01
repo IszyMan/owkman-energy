@@ -3,9 +3,27 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminController;
-use App\Http\Controllers\Admin\ProductController;
-use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\ProductController as AdminProductController;
+use App\Http\Controllers\Admin\CategoryController as AdminCategoryController; 
+use App\Http\Controllers\CategoryController;
 use App\Models\Product;
+use App\Models\Category;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ReviewController;
+
+
+
+Route::get('/product/{slug}', [ProductController::class, 'show']);
+
+
+Route::get('/', function () {
+    $products = Product::with('images')->latest()->get();
+    $categories = Category::all();
+
+    return view('home', compact('products', 'categories'));
+});
+
+Route::get('/category/{slug}', [CategoryController::class, 'show']);
 
 
 
@@ -15,27 +33,27 @@ Route::prefix('admin')
     ->group(function () {
 
     Route::get('/', [AdminController::class, 'index'])->name('admin.dashboard');
+    
 
     // Products
-    Route::get('/products', [ProductController::class, 'index']);
-    Route::get('/products/create', [ProductController::class, 'create']);
-    Route::post('/products', [ProductController::class, 'store']);
-    Route::get('/products/{id}/edit', [ProductController::class, 'edit']);
-    Route::put('/products/{id}', [ProductController::class, 'update']);
-    Route::delete('/products/{id}', [ProductController::class, 'destroy']);
+    Route::get('/products', [AdminProductController::class, 'index']);
+    Route::get('/products/create', [AdminProductController::class, 'create']);
+    Route::post('/products', [AdminProductController::class, 'store']);
+    Route::get('/products/{id}/edit', [AdminProductController::class, 'edit']);
+    Route::put('/products/{id}', [AdminProductController::class, 'update']);
+    Route::delete('/products/{id}', [AdminProductController::class, 'destroy']);
 
     // Categories
-    Route::get('/categories', [CategoryController::class, 'index']);
-    Route::get('/categories/create', [CategoryController::class, 'create']);
-    Route::post('/categories', [CategoryController::class, 'store']);
+    Route::get('/categories', [AdminCategoryController::class, 'index']);
+    Route::get('/categories/create', [AdminCategoryController::class, 'create']);
+    Route::post('/categories', [AdminCategoryController::class, 'store']);
+
+
+    Route::get('/reviews', [ReviewController::class, 'adminIndex']);
+    Route::patch('/reviews/{id}/approve', [ReviewController::class, 'approve']);
+    Route::delete('/reviews/{id}', [ReviewController::class, 'destroy']);
 });
 
-
-
-Route::get('/', function () {
-    $products = Product::with('images')->latest()->get();
-    return view('home', compact('products'));
-});
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -47,7 +65,13 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+
+
+
+
 Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
     ->name('logout');
+
+   
 
 require __DIR__.'/auth.php';

@@ -173,6 +173,11 @@
         </div>
 
 
+        <a href="/admin/reviews" class="{{ request()->is('admin/reviews*') ? 'active' : '' }}">
+            ⭐ Reviews
+        </a>
+
+
 
         <form method="POST" action="{{ route('logout') }}">
         @csrf

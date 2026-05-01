@@ -33,4 +33,13 @@ class Product extends Model
     {
         return $this->images->first()?->image;
     }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($product) {
+            $product->slug = \Str::slug($product->name);
+        });
+    }
 }
