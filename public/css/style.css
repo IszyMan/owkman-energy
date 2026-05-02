@@ -31,6 +31,76 @@ body {
     color: black;
 }
 
+.user-menu {
+    position: relative;
+    margin-left: 15px;
+}
+
+/* clickable text */
+.user-name {
+    cursor: pointer;
+    font-weight: 600;
+}
+
+/* dropdown */
+.user-dropdown {
+    display: none;
+    position: absolute;
+    top: 35px;
+    right: 0;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    min-width: 180px;
+    padding: 10px;
+    z-index: 100;
+
+    /* ✅ COLUMN layout */
+    flex-direction: column;
+}
+
+/* show dropdown */
+.user-dropdown.active {
+    display: flex;
+}
+
+/* links */
+.user-dropdown a {
+    padding: 8px;
+    text-decoration: none;
+    color: #111;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.user-dropdown a:hover {
+    background: #f5f5f5;
+}
+
+/* divider */
+.user-dropdown hr {
+    margin: 8px 0;
+    border: none;
+    border-top: 1px solid #eee;
+}
+
+/* logout button */
+.logout-btn {
+    width: 100%;
+    text-align: left;
+    background: #ffe6e6;
+    color: red;
+    border: none;
+    padding: 8px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.logout-btn:hover {
+    background: red;
+    color: white;
+}
 
 
 /* BREADCRUMB */

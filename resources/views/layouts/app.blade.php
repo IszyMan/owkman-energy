@@ -36,7 +36,24 @@
             <a href="#">Cart 🛒</a>
 
             @auth
-                <a href="{{ route('dashboard') }}">Dashboard</a>
+              <div class="user-menu">
+                <span class="user-name" id="userToggle">
+                    Hi, {{ auth()->user()->name }} ▼
+                </span>
+
+                <div class="user-dropdown" id="userDropdown">
+                    <a href="{{ route('dashboard') }}">Dashboard</a>
+                    <a href="#">Orders</a>
+                    <a href="#">Profile</a>
+
+                    <hr>
+
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button type="submit" class="logout-btn">Logout</button>
+                    </form>
+                </div>
+            </div>
             @else
                 <a href="{{ route('login') }}">Login</a>
                 <a href="{{ route('register') }}">Sign Up</a>
@@ -103,6 +120,22 @@ document.addEventListener('click', function (e) {
     if (!e.target.closest('.search-wrapper')) {
         resultsBox.style.display = "none";
     }
+});
+</script>
+
+
+<script>
+const toggle = document.getElementById('userToggle');
+const dropdown = document.getElementById('userDropdown');
+
+toggle.addEventListener('click', function (e) {
+    e.stopPropagation();
+    dropdown.classList.toggle('active');
+});
+
+// close when clicking outside
+document.addEventListener('click', function () {
+    dropdown.classList.remove('active');
 });
 </script>
 
