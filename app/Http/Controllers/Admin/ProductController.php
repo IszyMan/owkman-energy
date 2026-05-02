@@ -79,7 +79,9 @@ class ProductController extends Controller
     public function edit($id)
     {
         $product = Product::findOrFail($id);
-        return view('admin.products.edit', compact('product'));
+        $categories = Category::all();
+
+        return view('admin.products.edit', compact('product', 'categories'));
     }
 
     public function update(Request $request, $id)
@@ -92,6 +94,7 @@ class ProductController extends Controller
             'description' => 'nullable|string',
             'images.*' => 'image|mimes:jpg,jpeg,png,webp|max:2048',
             'replace_images.*' => 'image|mimes:jpg,jpeg,png,webp|max:2048',
+            
         ]);
 
         $product = Product::findOrFail($id);
@@ -102,6 +105,7 @@ class ProductController extends Controller
             'price' => $request->price,
             'stock' => $request->stock,
             'description' => $request->description,
+            'category_id' => $request->category_id,
         ]);
 
         if ($request->hasFile('replace_images')) {

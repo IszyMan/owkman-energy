@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {    
@@ -58,6 +59,39 @@ class ProductController extends Controller
             'reviews',
             'recentlyViewed'
         ));
+    }
+
+   
+   public function suggestions(Request $request)
+    {
+        return Product::with('images')
+            ->where('name', 'LIKE', "%{$request->q}%")
+            ->limit(6)
+            ->get()
+            ->map(function ($p) {
+                return [
+                    'id' => $p->id,
+                    'name' => $p->name,
+                    'price' => $p->price,
+                    'slug' => $p->slug,
+                    'image' => $p->images->first()
+                        ? asset('storage/'.$p->images->first()->image)
+                        : asset('images/default.png'),
+                ];
+            });
+    }
+
+  
+
+    public function search(Request $request)
+    {
+        $query = $request->q;
+
+        $products = Product::where('name', 'LIKE', "%{$query}%")
+            ->orWhere('description', 'LIKE', "%{$query}%")
+            ->get();
+
+        return view('search.results', compact('products', 'query'));
     }
 
 

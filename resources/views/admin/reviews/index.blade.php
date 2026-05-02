@@ -1,27 +1,84 @@
-<h2>Reviews Management</h2>
+@extends('admin.layout')
 
-@foreach($reviews as $review)
-    <div style="padding:10px; background:#fff; margin-bottom:10px;">
-        
-        <p><b>Product:</b> {{ $review->product->name }}</p>
-        <p><b>User:</b> {{ $review->user->name }}</p>
-        <p>{{ $review->comment }}</p>
-        <p>Rating: {{ $review->rating }}</p>
-        <p>Status: {{ $review->status }}</p>
+@section('content')
 
-        @if($review->status !== 'approved')
-        <form method="POST" action="/admin/reviews/{{ $review->id }}/approve">
-            @csrf
-            @method('PATCH')
-            <button>Approve</button>
-        </form>
-        @endif
+<div class="card">
+    <h1>Reviews Management</h1>
 
-        <form method="POST" action="/admin/reviews/{{ $review->id }}">
-            @csrf
-            @method('DELETE')
-            <button style="background:red;color:white;">Delete</button>
-        </form>
+    <hr>
 
-    </div>
-@endforeach
+    @foreach($reviews as $review)
+
+        <div style="padding:12px; border-bottom:1px solid #ddd; display:flex; justify-content:space-between; gap:15px; align-items:flex-start;">
+
+            {{-- LEFT SIDE --}}
+            <div style="flex:1;">
+
+                <strong>⭐ {{ $review->rating }}/5</strong>
+
+                <p style="margin:5px 0; color:#666;">
+                    {{ $review->comment }}
+                </p>
+
+                <small style="color:#999;">
+                    Product: {{ $review->product->name }} • User: {{ $review->user->name }}
+                </small>
+
+                <div style="margin-top:5px;">
+                    <span style="
+                        padding:3px 8px;
+                        border-radius:5px;
+                        font-size:12px;
+                        background: {{ $review->status == 'approved' ? '#dcfce7' : '#fef9c3' }};
+                        color: {{ $review->status == 'approved' ? '#166534' : '#92400e' }};
+                    ">
+                        {{ ucfirst($review->status) }}
+                    </span>
+                </div>
+
+            </div>
+
+            {{-- RIGHT SIDE ACTIONS --}}
+            <div style="display:flex; gap:10px; align-items:center;">
+
+                @if($review->status !== 'approved')
+                <form method="POST" action="/admin/reviews/{{ $review->id }}/approve">
+                    @csrf
+                    @method('PATCH')
+                    <button style="
+                        padding:6px 10px;
+                        background:green;
+                        color:white;
+                        border:none;
+                        border-radius:4px;
+                        cursor:pointer;
+                    ">
+                        Approve
+                    </button>
+                </form>
+                @endif
+
+                <form method="POST" action="/admin/reviews/{{ $review->id }}">
+                    @csrf
+                    @method('DELETE')
+
+                    <button style="
+                        padding:6px 10px;
+                        background:red;
+                        color:white;
+                        border:none;
+                        border-radius:4px;
+                        cursor:pointer;
+                    ">
+                        Delete
+                    </button>
+                </form>
+
+            </div>
+
+        </div>
+
+    @endforeach
+</div>
+
+@endsection

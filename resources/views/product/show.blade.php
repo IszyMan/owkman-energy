@@ -22,11 +22,25 @@
         <!-- LEFT: IMAGES -->
         <div class="product-images">
 
+            <!-- MAIN IMAGE -->
             <div class="main-image">
-                <img 
+                <img id="mainProductImage"
                     src="{{ asset('storage/'.$product->images->first()->image ?? 'images/default.png') }}"
                     alt="{{ $product->name }}"
                 >
+            </div>
+
+            <!-- THUMBNAILS -->
+            <div class="thumbnail-list">
+
+                @foreach($product->images as $img)
+                    <img
+                        src="{{ asset('storage/'.$img->image) }}"
+                        class="thumbnail"
+                        onclick="changeMainImage(this)"
+                    >
+                @endforeach
+
             </div>
 
         </div>
@@ -77,9 +91,31 @@
         @foreach($relatedProducts as $item)
             <a href="{{ url('/product/'.$item->slug) }}" class="card-link">
                 <div class="card">
-                    <img src="{{ asset('storage/'.$item->images->first()->image ?? 'images/default.png') }}">
+                    <div class="img-box" data-product="{{ $item->id }}">
+
+                    <button class="prev" onclick="changeImage(this, -1)">‹</button>
+
+                    <img 
+                        class="slider-image"
+                        src="{{ $item->images->count() 
+                            ? asset('storage/' . $item->images[0]->image) 
+                            : asset('images/default.png') }}"
+                        data-index="0"
+                    />
+
+                    <button class="next" onclick="changeImage(this, 1)">›</button>
+
+                    <!-- hidden images list -->
+                    <div class="images-data" style="display:none;">
+                        @foreach($item->images as $img)
+                            <span>{{ $img->image }}</span>
+                        @endforeach
+                    </div>
+
+                </div>
                     <h3>{{ $item->name }}</h3>
                     <span class="price">₦{{ number_format($item->price) }}</span>
+                    <button>Add to Cart</button>
                 </div>
             </a>
         @endforeach
@@ -94,65 +130,106 @@
         @foreach($latestProducts as $item)
             <a href="{{ url('/product/'.$item->slug) }}" class="card-link">
                 <div class="card">
-                    <img src="{{ asset('storage/'.$item->images->first()->image ?? 'images/default.png') }}">
+                    <div class="img-box" data-product="{{ $item->id }}">
+
+                    <button class="prev" onclick="changeImage(this, -1)">‹</button>
+
+                    <img 
+                        class="slider-image"
+                        src="{{ $item->images->count() 
+                            ? asset('storage/' . $item->images[0]->image) 
+                            : asset('images/default.png') }}"
+                        data-index="0"
+                    />
+
+                    <button class="next" onclick="changeImage(this, 1)">›</button>
+
+                    <!-- hidden images list -->
+                    <div class="images-data" style="display:none;">
+                        @foreach($item->images as $img)
+                            <span>{{ $img->image }}</span>
+                        @endforeach
+                    </div>
+
+                </div>
                     <h3>{{ $item->name }}</h3>
                     <span class="price">₦{{ number_format($item->price) }}</span>
+                    <button>Add to Cart</button>
                 </div>
             </a>
         @endforeach
     </div>
 </section>
 
+    
+<section class="reviews-section">
 
-<section class="section">
     
 
+    <div class="reviews-wrapper">
 
-    <h3>Customer Reviews</h3>
+        <!-- REVIEW FORM -->
+        <div class="review-form-wrapper">
 
-    @forelse($reviews as $review)
-    <div class="review">
-        <strong>{{ $review->user->name }}</strong>
-        <p>⭐ {{ $review->rating }}/5</p>
-        <p>{{ $review->comment }}</p>
+            @if(session('success'))
+                <div class="alert-success">{{ session('success') }}</div>
+            @endif
+
+            @if(session('error'))
+                <div class="alert-error">{{ session('error') }}</div>
+            @endif
+
+            <h3 class="form-title">Write a Review</h3>
+
+            <form method="POST" action="/reviews" id="reviewForm">
+                @csrf
+
+                <input type="hidden" name="product_id" value="{{ $product->id }}">
+
+                <label>Rating</label>
+                <select name="rating" required>
+                    <option value="">Select rating</option>
+                    <option value="5">★★★★★</option>
+                    <option value="4">★★★★</option>
+                    <option value="3">★★★</option>
+                    <option value="2">★★</option>
+                    <option value="1">★</option>
+                </select>
+
+                <label>Comment</label>
+                <textarea name="comment" placeholder="Write your review" required></textarea>
+
+                <button type="submit">Submit Review</button>
+            </form>
+
+        </div>
+
+        <!-- REVIEWS LIST -->
+        <div class="reviews-list">
+            <h3 class="section-title">Customer Reviews</h3>
+
+            @forelse($reviews as $review)
+                <div class="review-card">
+
+                    <div class="review-header">
+                        <strong>{{ $review->user->name }}</strong>
+                        <span class="rating">⭐ {{ $review->rating }}/5</span>
+                    </div>
+
+                    <p class="review-text">
+                        {{ $review->comment }}
+                    </p>
+
+                </div>
+            @empty
+                <p class="no-reviews">No reviews yet</p>
+            @endforelse
+
+        </div>
+
     </div>
-    @empty
-        <p>No reviews yet</p>
-    @endforelse
-
-
-    <hr>
-
-<h3>Write a Review</h3>
-
-@auth
-<form method="POST" action="/reviews">
-    @csrf
-
-    <input type="hidden" name="product_id" value="{{ $product->id }}">
-
-    <label>Rating</label>
-    <select name="rating">
-        <option value="5">★★★★★</option>
-        <option value="4">★★★★</option>
-        <option value="3">★★★</option>
-        <option value="2">★★</option>
-        <option value="1">★</option>
-    </select>
-
-    <textarea name="comment" placeholder="Write your review"></textarea>
-
-    <button type="submit">Submit Review</button>
-</form>
-@else
-<p><a href="/login">Login</a> to write a review</p>
-@endauth
 
 </section>
-
-   
-
-
 
 
 
@@ -164,9 +241,31 @@
         @foreach($recentlyViewed as $item)
             <a href="{{ url('/product/'.$item->slug) }}" class="card-link">
                 <div class="card">
-                    <img src="{{ asset('storage/'.$item->images->first()->image ?? 'images/default.png') }}">
+                    <div class="img-box" data-product="{{ $item->id }}">
+
+                        <button class="prev" onclick="changeImage(this, -1)">‹</button>
+
+                        <img 
+                            class="slider-image"
+                            src="{{ $item->images->count() 
+                                ? asset('storage/' . $item->images[0]->image) 
+                                : asset('images/default.png') }}"
+                            data-index="0"
+                        />
+
+                        <button class="next" onclick="changeImage(this, 1)">›</button>
+
+                        <!-- hidden images list -->
+                        <div class="images-data" style="display:none;">
+                            @foreach($item->images as $img)
+                                <span>{{ $img->image }}</span>
+                            @endforeach
+                        </div>
+
+                    </div>
                     <h3>{{ $item->name }}</h3>
                     <span class="price">₦{{ number_format($item->price) }}</span>
+                    <button>Add to Cart</button>
                 </div>
             </a>
         @endforeach
@@ -187,6 +286,24 @@ function decreaseQty() {
     if (qty.value > 1) {
         qty.value = parseInt(qty.value) - 1;
     }
+}
+</script>
+
+<script>
+    const isLoggedIn = @json(auth()->check());
+
+    document.getElementById('reviewForm').addEventListener('submit', function(e) {
+        if (!isLoggedIn) {
+            e.preventDefault();
+            alert('Please login first to write a review.');
+            window.location.href = "/login";
+        }
+    });
+</script>
+
+<script>
+function changeMainImage(el) {
+    document.getElementById('mainProductImage').src = el.src;
 }
 </script>
 

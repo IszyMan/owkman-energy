@@ -10,13 +10,27 @@
 </head>
 <body>
 
-    <!-- NAVBAR -->
     <nav class="navbar">
-        <h1 class="logo"><a href="{{ url('/') }}" style="text-decoration:none">Owkman Energy</a></h1>
+        <h1 class="logo">
+            <a href="{{ url('/') }}" style="text-decoration:none">Owkman Energy</a>
+        </h1>
 
-        <form class="search-form">
-            <input type="text" placeholder="Search products...">
-        </form>
+        <div class="search-wrapper">
+            <form class="search-form" method="GET" action="{{ url('/search') }}">
+                <input 
+                    type="text" 
+                    id="searchInput"
+                    name="q"
+                    placeholder="Search products..."
+                    autocomplete="off"
+                >
+
+                <button type="submit" class="search-btn">🔍</button>
+            </form>
+
+            <!-- DROPDOWN -->
+            <div id="searchResults" class="search-results"></div>
+        </div>
 
         <div class="nav-links">
             <a href="#">Cart 🛒</a>
@@ -29,7 +43,6 @@
             @endauth
         </div>
     </nav>
-
     <!-- PAGE CONTENT -->
     <main>
         @yield('content')
@@ -40,5 +53,60 @@
         <p>© {{ date('Y') }} Owkman Energy. All rights reserved.</p>
     </footer>
 
+    <script>
+const input = document.getElementById('searchInput');
+const resultsBox = document.getElementById('searchResults');
+
+input.addEventListener('keyup', function () {
+
+    let query = this.value;
+
+    if (query.length < 2) {
+        resultsBox.style.display = "none";
+        return;
+    }
+
+    fetch(`/search-suggestions?q=${query}`)
+        .then(res => res.json())
+        .then(data => {
+
+            resultsBox.innerHTML = "";
+
+            if (data.length === 0) {
+                resultsBox.innerHTML = "<div class='search-item'>No results</div>";
+                resultsBox.style.display = "block";
+                return;
+            }
+
+            data.forEach(item => {
+                let div = document.createElement('div');
+                div.classList.add('search-item');
+
+                div.innerHTML = `
+                    <img src="${item.image}" class="search-thumb">
+                    <span>${item.name}</span>
+                `;
+
+                div.onclick = () => {
+                    window.location.href = `/product/${item.slug}`;
+                };
+
+                resultsBox.appendChild(div);
+            });
+
+            resultsBox.style.display = "block";
+        });
+});
+
+// hide dropdown
+document.addEventListener('click', function (e) {
+    if (!e.target.closest('.search-wrapper')) {
+        resultsBox.style.display = "none";
+    }
+});
+</script>
+
 </body>
+
+
 </html>

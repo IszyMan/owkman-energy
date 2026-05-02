@@ -10,6 +10,12 @@ class ReviewController extends Controller
     // USER SUBMIT REVIEW
     public function store(Request $request)
     {
+
+      // Block guests
+        if (!auth()->check()) {
+            return redirect('/login')->with('error', 'Login first to write a review');
+        }
+
         $request->validate([
             'product_id' => 'required',
             'rating' => 'required|integer|min:1|max:5',
@@ -26,6 +32,7 @@ class ReviewController extends Controller
 
         return back()->with('success', 'Review submitted for approval');
     }
+
 
     // ADMIN: LIST REVIEWS
     public function adminIndex()

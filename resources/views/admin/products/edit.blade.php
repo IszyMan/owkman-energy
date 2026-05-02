@@ -9,12 +9,32 @@
         @csrf
         @method('PUT')
 
+        <label>Name</label>
         <input type="text" name="name" value="{{ $product->name }}" placeholder="Product Name"><br><br>
 
+        <label>Category</label>
+        <select name="category_id" required>
+            <option value="">Select Category</option>
+
+            @foreach($categories as $category)
+                <option 
+                    value="{{ $category->id }}"
+                    {{ $product->category_id == $category->id ? 'selected' : '' }}
+                >
+                    {{ $category->name }}
+                </option>
+            @endforeach
+        </select>
+
+        <br><br>
+
+        <label>Price</label>
         <input type="number" name="price" value="{{ $product->price }}" placeholder="Price"><br><br>
 
+        <label>Quantity left</label>
         <input type="number" name="stock" value="{{ $product->stock }}" placeholder="Stock Quantity"><br><br>
 
+        <label>Description</label>
         <textarea name="description">{{ $product->description }}</textarea><br><br>
 
         {{-- EXISTING IMAGES (REPLACE MODE) --}}

@@ -15,6 +15,8 @@ use App\Http\Controllers\ReviewController;
 
 Route::get('/product/{slug}', [ProductController::class, 'show']);
 
+Route::post('/reviews', [ReviewController::class, 'store']);
+
 
 Route::get('/', function () {
     $products = Product::with('images')->latest()->get();
@@ -24,6 +26,10 @@ Route::get('/', function () {
 });
 
 Route::get('/category/{slug}', [CategoryController::class, 'show']);
+
+
+Route::get('/search-suggestions', [ProductController::class, 'suggestions']);
+Route::get('/search', [ProductController::class, 'search']);
 
 
 

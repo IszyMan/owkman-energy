@@ -264,6 +264,310 @@ body {
 }
 
 
+/* =========================
+   REVIEWS SECTION
+========================= */
+
+.reviews-section {
+    padding: 20px;
+}
+
+.section-title {
+    font-size: 22px;
+    margin-bottom: 15px;
+}
+
+/* =========================
+   DESKTOP LAYOUT
+========================= */
+
+.reviews-wrapper {
+    display: flex;
+    gap: 25px;
+    align-items: flex-start;
+}
+
+/* LEFT: FORM (PRIMARY ACTION) */
+.review-form-wrapper {
+    flex: 1;
+    position: sticky;
+    top: 20px;
+}
+
+/* RIGHT: REVIEWS */
+.reviews-list {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* =========================
+   REVIEW CARD
+========================= */
+
+.review-card {
+    background: #f8fafc;
+    border: 1px solid #e5e7eb;
+    padding: 14px;
+    border-radius: 12px;
+}
+
+.review-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 6px;
+    font-size: 14px;
+}
+
+.rating {
+    color: #f59e0b;
+    font-weight: 600;
+}
+
+.review-text {
+    font-size: 14px;
+    color: #444;
+    line-height: 1.5;
+    margin: 0;
+}
+
+.no-reviews {
+    color: #888;
+}
+
+/* =========================
+   FORM STYLE
+========================= */
+
+#reviewForm {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    padding: 16px;
+    border-radius: 12px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+#reviewForm label {
+    font-size: 13px;
+    font-weight: 600;
+}
+
+#reviewForm select,
+#reviewForm textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+#reviewForm textarea {
+    min-height: 100px;
+    resize: none;
+}
+
+#reviewForm button {
+    background: black;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+/* =========================
+   ALERTS
+========================= */
+
+.alert-success {
+    background: #e6ffed;
+    color: #0a7a2f;
+    padding: 10px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+}
+
+.alert-error {
+    background: #ffe6e6;
+    color: #a10000;
+    padding: 10px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+}
+
+/* =========================
+   📱 MOBILE (IMPORTANT PART)
+========================= */
+
+@media (max-width: 768px) {
+
+   
+
+    .reviews-wrapper {
+        flex-direction: column;
+    }
+    
+    .reviews-list {
+        order: 1;
+        width: 100%;
+    }
+
+    
+    .review-form-wrapper {
+        order: 2;
+        width: 100%;
+        position: static;
+    }
+
+    /* optional spacing improvement */
+    .reviews-list {
+        margin-bottom: 15px;
+    }
+
+    
+
+    /* FORM FIRST */
+    .review-form-wrapper {
+        position: static;
+        width: 100%;
+    }
+
+    /* REVIEWS BELOW */
+    .reviews-list {
+        width: 100%;
+    }
+
+    /* MAKE FORM BIGGER */
+    #reviewForm {
+        padding: 20px;
+    }
+
+    #reviewForm textarea {
+        min-height: 140px;
+        font-size: 15px;
+    }
+
+    #reviewForm select {
+        font-size: 15px;
+    }
+
+    #reviewForm button {
+        padding: 14px;
+        font-size: 15px;
+    }
+
+    /* REVIEW CARD BIGGER FEEL */
+    .review-card {
+        padding: 16px;
+    }
+
+    .review-text {
+        font-size: 15px;
+    }
+}
+
+
+.alert-success {
+    background: #e6ffed;
+    color: #0a7a2f;
+    padding: 10px 12px;
+    border: 1px solid #b7f5c4;
+    border-radius: 6px;
+    margin-bottom: 15px;
+}
+
+.alert-error {
+    background: #ffe6e6;
+    color: #a10000;
+    padding: 10px 12px;
+    border: 1px solid #ffb3b3;
+    border-radius: 6px;
+    margin-bottom: 15px;
+}
+
+/*Search CSS*/
+.search-wrapper {
+    position: relative;
+    width: 300px;
+}
+
+.search-results {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid #ddd;
+    border-top: none;
+    z-index: 999;
+    display: none;
+    max-height: 250px;
+    overflow-y: auto;
+}
+
+.search-results div {
+    padding: 10px;
+    cursor: pointer;
+    border-bottom: 1px solid #f1f1f1;
+}
+
+.search-results div:hover {
+    background: #f5f5f5;
+}
+
+.search-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 10px;
+    cursor: pointer;
+}
+
+.search-thumb {
+    width: 30px;
+    height: 30px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.search-item span {
+    font-size: 14px;
+}
+
+.search-form {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.search-form input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px 0 0 6px;
+    outline: none;
+}
+
+.search-btn {
+    padding: 10px 14px;
+    border: none;
+    background: black;
+    color: white;
+    cursor: pointer;
+    border-radius: 0 6px 6px 0;
+}
+
+.search-btn:hover {
+    background: #333;
+}
 
 /* FOOTER */
 .footer {
@@ -590,32 +894,83 @@ body {
 }
 
 
-/* PRODUCT PAGE LAYOUT */
+/* =========================
+   PRODUCT PAGE LAYOUT (CLEAN)
+========================= */
+
 .product-page {
     padding: 20px;
 }
 
+/* MAIN CONTAINER */
 .product-container {
     display: flex;
     gap: 30px;
     background: #fff;
     padding: 20px;
     border-radius: 12px;
+    align-items: flex-start;
 }
 
-/* LEFT SIDE */
+/* =========================
+   LEFT: IMAGES
+========================= */
+
 .product-images {
     flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-width: 0; /* IMPORTANT FIX */
 }
 
+/* MAIN IMAGE WRAPPER */
+.main-image {
+    width: 100%;
+    height: 360px;
+    background: #f5f5f5;
+    border-radius: 10px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+}
+
+/* MAIN IMAGE */
 .main-image img {
     width: 100%;
-    max-height: 450px;
-    object-fit: cover;
-    border-radius: 10px;
+    height: 100%;
+    object-fit: contain; /* shows full image */
 }
 
-/* RIGHT SIDE */
+/* THUMBNAILS */
+.thumbnail-list {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.thumbnail {
+    width: 55px;
+    height: 55px;
+    object-fit: cover;
+    border-radius: 6px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: 0.2s;
+}
+
+.thumbnail:hover {
+    border-color: orange;
+    transform: scale(1.05);
+}
+
+/* =========================
+   RIGHT: DETAILS
+========================= */
+
 .product-details {
     flex: 1;
     display: flex;
@@ -623,6 +978,7 @@ body {
     gap: 15px;
 }
 
+/* TEXT */
 .product-title {
     font-size: 26px;
     font-weight: bold;
@@ -638,6 +994,7 @@ body {
     line-height: 1.5;
 }
 
+/* STOCK */
 .stock .in-stock {
     color: green;
     font-weight: bold;
@@ -648,7 +1005,10 @@ body {
     font-weight: bold;
 }
 
-/* QUANTITY */
+/* =========================
+   QUANTITY
+========================= */
+
 .quantity-box {
     display: flex;
     align-items: center;
@@ -661,7 +1021,6 @@ body {
     border: none;
     background: #eee;
     cursor: pointer;
-    font-size: 18px;
 }
 
 .quantity-box input {
@@ -670,7 +1029,10 @@ body {
     padding: 5px;
 }
 
-/* ADD TO CART */
+/* =========================
+   BUTTON
+========================= */
+
 .add-cart {
     background: black;
     color: white;
@@ -678,18 +1040,24 @@ body {
     border: none;
     cursor: pointer;
     border-radius: 6px;
-    font-size: 16px;
 }
 
 .add-cart:hover {
     background: #333;
 }
 
-/* 📱 MOBILE RESPONSIVE */
+/* =========================
+   MOBILE FIX
+========================= */
+
 @media (max-width: 768px) {
 
     .product-container {
         flex-direction: column;
+    }
+
+    .main-image {
+        height: 280px;
     }
 
     .product-title {
@@ -700,7 +1068,8 @@ body {
         font-size: 18px;
     }
 
-    .main-image img {
-        max-height: 300px;
+    .thumbnail {
+        width: 50px;
+        height: 50px;
     }
 }

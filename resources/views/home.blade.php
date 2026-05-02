@@ -3,19 +3,6 @@
 @section('content')
 
 <!-- CATEGORIES -->
-<section class="section">
-    <h2>Shop by Categories</h2>
-
-    <div class="category-grid">
-        <a href="#" class="cat">📷 CCTV</a>
-        <a href="#" class="cat">☀️ Solar Energy</a>
-        <a href="#" class="cat">⌚ Smart Watches</a>
-        <a href="#" class="cat">🕶️ Smart Glasses</a>
-        <a href="#" class="cat">🔋 Batteries</a>
-        <a href="#" class="cat">⚡ Accessories</a>
-    </div>
-</section>
-
 
 <section class="section">
     <h2>Shop by Categories</h2>
