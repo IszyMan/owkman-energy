@@ -10,20 +10,16 @@ use App\Models\Product;
 use App\Models\Category;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Admin\FeaturedController;
 
 
+
+Route::get('/', [HomeController::class, 'index']);
 
 Route::get('/product/{slug}', [ProductController::class, 'show']);
 
 Route::post('/reviews', [ReviewController::class, 'store']);
-
-
-Route::get('/', function () {
-    $products = Product::with('images')->latest()->get();
-    $categories = Category::all();
-
-    return view('home', compact('products', 'categories'));
-});
 
 Route::get('/category/{slug}', [CategoryController::class, 'show']);
 
@@ -58,6 +54,10 @@ Route::prefix('admin')
     Route::get('/reviews', [ReviewController::class, 'adminIndex']);
     Route::patch('/reviews/{id}/approve', [ReviewController::class, 'approve']);
     Route::delete('/reviews/{id}', [ReviewController::class, 'destroy']);
+
+    Route::get('/featured', [FeaturedController::class, 'index']);
+    Route::post('/featured', [FeaturedController::class, 'store']);
+    Route::delete('/featured/{id}', [FeaturedController::class, 'destroy']);
 });
 
 

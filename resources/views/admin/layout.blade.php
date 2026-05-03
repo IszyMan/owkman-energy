@@ -177,6 +177,10 @@
             ⭐ Reviews
         </a>
 
+        <a href="/admin/featured" class="{{ request()->is('admin/featured*') ? 'active' : '' }}">
+            ⭐ Featured
+        </a>
+
 
 
         <form method="POST" action="{{ route('logout') }}">

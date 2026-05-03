@@ -2,6 +2,24 @@
 
 @section('content')
 
+<!-- FEATURED SLIDER -->
+<section class="featured-slider">
+    <div class="slider-box">
+
+        @foreach($featured as $index => $item)
+            <a href="{{ url('/product/'.$item->product->slug) }}">
+                <img 
+                    src="{{ $item->product->images->count() 
+                        ? asset('storage/'.$item->product->images[0]->image) 
+                        : asset('images/default.png') }}"
+                    class="featured-slide {{ $index === 0 ? 'active' : '' }}"
+                >
+            </a>
+        @endforeach
+
+    </div>
+</section>
+
 <!-- CATEGORIES -->
 
 <section class="section">
@@ -138,6 +156,21 @@ function changeImage(button, direction) {
     img.src = '/storage/' + images[index];
     img.dataset.index = index;
 }
+</script>
+
+
+<script>
+let slides = document.querySelectorAll('.featured-slide');
+let index = 0;
+
+setInterval(() => {
+    slides[index].classList.remove('active');
+
+    index++;
+    if (index >= slides.length) index = 0;
+
+    slides[index].classList.add('active');
+}, 3000);
 </script>
 
 @endsection
