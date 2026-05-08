@@ -135,9 +135,80 @@
       cursor: pointer;
     }
 
+    /*admin responsive layout*/
+
+/* ===== MOBILE HEADER ===== */
+.mobile-header {
+    display: none;
+    background: #111827;
+    color: white;
+    padding: 15px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.menu-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+/* ===== OVERLAY ===== */
+.overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 10;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+
+    body {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        left: -260px;
+        transition: 0.3s;
+        z-index: 20;
+    }
+
+    .sidebar.active {
+        left: 0;
+    }
+
+    .main {
+        margin-left: 0;
+        width: 100%;
+        padding: 15px;
+    }
+
+    .mobile-header {
+        display: flex;
+    }
+
+    .overlay.active {
+        display: block;
+    }
+}
+
 </style>
 </head>
 <body>
+
+<div class="overlay" id="overlay"></div>
+
+    <div class="mobile-header">
+        <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+        <h2>⚡ Admin</h2>
+    </div>
 
     <div class="sidebar">
         <h2>⚡ Admin</h2>
@@ -217,6 +288,19 @@
                 container.style.display === "block" ? "none" : "block";
         });
     });
+</script>
+
+<script>
+function toggleSidebar() {
+    document.querySelector(".sidebar").classList.toggle("active");
+    document.getElementById("overlay").classList.toggle("active");
+}
+
+// close sidebar when clicking overlay
+document.getElementById("overlay").addEventListener("click", function () {
+    document.querySelector(".sidebar").classList.remove("active");
+    this.classList.remove("active");
+});
 </script>
 
 </body>

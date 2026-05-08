@@ -2,18 +2,43 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Owkman Energy - Dealers on all kinds of CCTV Cameras, Smart Glasses & Watches and Solar Batteries</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">    
+
+    <title>@yield('title', 'Owkman Energy - Dealers on all kinds of CCTV Cameras, Smart Glasses & Watches and Solar Batteries')</title>
+    <meta name="description" content="@yield('meta_description', 'Buy CCTV, solar street lights, smart gadgets and solar batteries in Enugu, Nigeria')">
+    <meta name="keywords" content="@yield('meta_keywords', 'CCTV, solar batteries, ai glasses, meta glasses, ai watches, smart watches Nigeria')">
+
+    <!-- Open Graph (for WhatsApp, Facebook) -->
+    <meta property="og:title" content="@yield('title')">
+    <meta property="og:description" content="@yield('meta_description')">
+    <meta property="og:image" content="@yield('meta_image')">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:type" content="product">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="@yield('title')">
+    <meta name="twitter:description" content="@yield('meta_description')">
+    <meta name="twitter:image" content="@yield('meta_image')">
+
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('images/Owkman-Favicon.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('images/Owkman-Favicon.png') }}">
+    <link rel="apple-touch-icon" href="{{ asset('images/Owkman-Favicon.png') }}">
 
     <!-- custom CSS -->
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+
+    <link rel="canonical" href="{{ url()->current() }}">
+    <meta name="robots" content="index, follow">
 </head>
 <body>
 
     <nav class="navbar">
-        <h1 class="logo">
-            <a href="{{ url('/') }}" style="text-decoration:none">Owkman Energy</a>
-        </h1>
+        <div class="logo">
+            <a href="{{ url('/') }}">
+                <img src="{{ asset('images/Owkman-Logo.png') }}" alt="Owkman Energy Logo">
+            </a>
+        </div>
 
         <div class="search-wrapper">
             <form class="search-form" method="GET" action="{{ url('/search') }}">

@@ -1,5 +1,17 @@
 @extends('layouts.app')
 
+@section('title', $product->name . ' | Owkman Energy')
+
+@section('meta_description', Str::limit($product->description, 150))
+
+@section('meta_keywords', $product->name . ', ' . $product->category->name . ', CCTV Nigeria, Solar Batteries, Smart glasses, AI Glasses, Smart Watches')
+
+@section('meta_image', asset(
+    $product->images->first() 
+        ? 'storage/'.$product->images->first()->image 
+        : 'images/default.png'
+))
+
 @section('content')
 
 <section class="product-page">
@@ -25,7 +37,11 @@
             <!-- MAIN IMAGE -->
             <div class="main-image">
                 <img id="mainProductImage"
-                    src="{{ asset('storage/'.$product->images->first()->image ?? 'images/default.png') }}"
+                    src="{{ asset(
+                        $product->images->first() 
+                            ? 'storage/'.$product->images->first()->image 
+                            : 'images/default.png'
+                    ) }}"
                     alt="{{ $product->name }}"
                 >
             </div>
@@ -37,6 +53,7 @@
                     <img
                         src="{{ asset('storage/'.$img->image) }}"
                         class="thumbnail"
+                        alt="{{ $product->name }}"
                         onclick="changeMainImage(this)"
                     >
                 @endforeach
@@ -306,5 +323,7 @@ function changeMainImage(el) {
     document.getElementById('mainProductImage').src = el.src;
 }
 </script>
+
+
 
 @endsection
