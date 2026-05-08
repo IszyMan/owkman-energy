@@ -4,6 +4,7 @@
 
 <!-- FEATURED SLIDER -->
 <section class="featured-slider">
+    <h2>🔥 Trending Products</h2>
     <div class="slider-box">
 
         @foreach($featured as $index => $item)
@@ -108,15 +109,19 @@
 <!-- TRENDING -->
 <section class="section">
     <h2>🔥 Trending Products</h2>
+     <div class="slider-box">
 
-    <div class="product-grid">
-        @foreach($products->skip(6)->take(8) as $product)
-            <div class="product-card">
-                <img src="{{ asset('storage/'.$product->images->first()->image ?? 'images/default.png') }}">
-                <h3>{{ $product->name }}</h3>
-                <p>₦{{ number_format($product->price) }}</p>
-            </div>
+        @foreach($featured as $index => $item)
+            <a href="{{ url('/product/'.$item->product->slug) }}">
+                <img 
+                    src="{{ $item->product->images->count() 
+                        ? asset('storage/'.$item->product->images[0]->image) 
+                        : asset('images/default.png') }}"
+                    class="featured-slide {{ $index === 0 ? 'active' : '' }}"
+                >
+            </a>
         @endforeach
+
     </div>
 </section>
 
