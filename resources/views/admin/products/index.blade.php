@@ -18,7 +18,7 @@
                 {{-- IMAGES --}}
                 <div style="display:flex; gap:5px;">
                     @foreach($product->images as $img)
-                        <img src="{{ asset('storage/' . $img->image) }}"
+                        <img src="{{ asset($img->image) }}"
                             width="60"
                             height="60"
                             style="object-fit:cover; border-radius:5px;">

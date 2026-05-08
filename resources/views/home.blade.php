@@ -11,7 +11,7 @@
             <a href="{{ url('/product/'.$item->product->slug) }}">
                 <img 
                     src="{{ $item->product->images->count() 
-                        ? asset('storage/'.$item->product->images[0]->image) 
+                        ? asset($item->product->images[0]->image) 
                         : asset('images/default.png') }}"
                     class="featured-slide {{ $index === 0 ? 'active' : '' }}"
                 >
@@ -65,7 +65,7 @@
                     <img 
                         class="slider-image"
                         src="{{ $product->images->count() 
-                            ? asset('storage/' . $product->images[0]->image) 
+                            ? asset($product->images[0]->image) 
                             : asset('images/default.png') }}"
                         data-index="0"
                     />
@@ -115,7 +115,7 @@
             <a href="{{ url('/product/'.$item->product->slug) }}">
                 <img 
                     src="{{ $item->product->images->count() 
-                        ? asset('storage/'.$item->product->images[0]->image) 
+                        ? asset($item->product->images[0]->image) 
                         : asset('images/default.png') }}"
                     class="featured-slide {{ $index === 0 ? 'active' : '' }}"
                 >
@@ -158,7 +158,7 @@ function changeImage(button, direction) {
     if (index < 0) index = images.length - 1;
     if (index >= images.length) index = 0;
 
-    img.src = '/storage/' + images[index];
+    img.src = '{{ asset('') }}' + images[index];
     img.dataset.index = index;
 }
 </script>

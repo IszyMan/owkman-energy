@@ -8,7 +8,7 @@
 
 @section('meta_image', asset(
     $product->images->first() 
-        ? 'storage/'.$product->images->first()->image 
+        ? $product->images->first()->image 
         : 'images/default.png'
 ))
 
@@ -39,7 +39,7 @@
                 <img id="mainProductImage"
                     src="{{ asset(
                         $product->images->first() 
-                            ? 'storage/'.$product->images->first()->image 
+                            ? $product->images->first()->image 
                             : 'images/default.png'
                     ) }}"
                     alt="{{ $product->name }}"
@@ -51,7 +51,7 @@
 
                 @foreach($product->images as $img)
                     <img
-                        src="{{ asset('storage/'.$img->image) }}"
+                        src="{{ asset($img->image) }}"
                         class="thumbnail"
                         alt="{{ $product->name }}"
                         onclick="changeMainImage(this)"
@@ -115,7 +115,7 @@
                     <img 
                         class="slider-image"
                         src="{{ $item->images->count() 
-                            ? asset('storage/' . $item->images[0]->image) 
+                            ? asset($item->images[0]->image) 
                             : asset('images/default.png') }}"
                         data-index="0"
                     />
@@ -154,7 +154,7 @@
                     <img 
                         class="slider-image"
                         src="{{ $item->images->count() 
-                            ? asset('storage/' . $item->images[0]->image) 
+                            ? asset($item->images[0]->image) 
                             : asset('images/default.png') }}"
                         data-index="0"
                     />
@@ -265,7 +265,7 @@
                         <img 
                             class="slider-image"
                             src="{{ $item->images->count() 
-                                ? asset('storage/' . $item->images[0]->image) 
+                                ? asset($item->images[0]->image) 
                                 : asset('images/default.png') }}"
                             data-index="0"
                         />

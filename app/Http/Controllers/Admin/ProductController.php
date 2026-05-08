@@ -125,7 +125,7 @@ class ProductController extends Controller
                     }
 
                     // upload new image
-                    $filename = Str::uuid().'.'.$image->extension();
+                    $filename = Str::uuid().'.'.$file->extension();
                     $file->move(public_path('storage/products'), $filename);
 
                     // update record
@@ -140,7 +140,7 @@ class ProductController extends Controller
 
             foreach ($request->file('new_images') as $file) {
 
-                $filename = Str::uuid().'.'.$image->extension();
+                $filename = Str::uuid().'.'.$file->extension();
                 $file->move(public_path('storage/products'), $filename);
 
                 ProductImage::create([
