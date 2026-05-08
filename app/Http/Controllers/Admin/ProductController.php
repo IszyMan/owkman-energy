@@ -9,7 +9,7 @@ use App\Models\Product;
 use App\Models\Category; 
 use App\Models\ProductImage;
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Storage;
+
 
 class ProductController extends Controller
 {
@@ -57,11 +57,13 @@ class ProductController extends Controller
         // Handle multiple images
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {
-                $path = $image->store('products', 'public');
+
+                $filename = Str::uuid().'.'.$file->extension();
+                $image->move(public_path('storage/products'), $filename);
 
                 ProductImage::create([
                     'product_id' => $product->id,
-                    'image' => $path,
+                    'image' => 'storage/products/'.$filename,
                 ]);
             }
         }
@@ -115,15 +117,20 @@ class ProductController extends Controller
                 $img = ProductImage::find($imageId);
 
                 if ($img) {
-                    // delete old image
-                    Storage::disk('public')->delete($img->image);
 
-                    // store new image
-                    $path = $file->store('products', 'public');
+                    // delete old image
+                    $oldPath = public_path($img->image);
+                    if (file_exists($oldPath)) {
+                        unlink($oldPath);
+                    }
+
+                    // upload new image
+                    $filename = Str::uuid().'.'.$file->extension();
+                    $file->move(public_path('storage/products'), $filename);
 
                     // update record
                     $img->update([
-                        'image' => $path
+                        'image' => 'storage/products/'.$filename
                     ]);
                 }
             }
@@ -133,15 +140,15 @@ class ProductController extends Controller
 
             foreach ($request->file('new_images') as $file) {
 
-                $path = $file->store('products', 'public');
+                $filename = Str::uuid().'.'.$file->extension();
+                $file->move(public_path('storage/products'), $filename);
 
                 ProductImage::create([
                     'product_id' => $product->id,
-                    'image' => $path
+                    'image' => 'storage/products/'.$filename
                 ]);
             }
         }
-
         return redirect('/admin/products');
     }
 
@@ -150,7 +157,10 @@ class ProductController extends Controller
         $product = Product::with('images')->findOrFail($id);
 
         foreach ($product->images as $img) {
-            Storage::disk('public')->delete($img->image);
+            $oldPath = public_path($img->image);
+            if (file_exists($oldPath)) {
+                unlink($oldPath);
+            }
             $img->delete();
         }
 
