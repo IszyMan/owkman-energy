@@ -11,7 +11,7 @@
             <a href="{{ url('/product/'.$item->product->slug) }}">
                 <img 
                     src="{{ $item->product->images->count() 
-                        ? asset($item->product->images[0]->image) 
+                        ? asset('storage/' .$item->product->images[0]->image) 
                         : asset('images/default.png') }}"
                     class="featured-slide {{ $index === 0 ? 'active' : '' }}"
                 >
@@ -56,8 +56,9 @@
 
     <div class="products">
         @foreach ($products as $product)
-        <a href="{{ url('/product/'.$product->slug) }}" class="card-link">
+        
             <div class="card">
+                <a href="{{ url('/product/'.$product->slug) }}" class="card-link">
                 <div class="img-box" data-product="{{ $product->id }}">
 
                     <button class="prev" onclick="changeImage(this, -1)">‹</button>
@@ -65,7 +66,7 @@
                     <img 
                         class="slider-image"
                         src="{{ $product->images->count() 
-                            ? asset($product->images[0]->image) 
+                            ? asset('storage/' .$product->images[0]->image) 
                             : asset('images/default.png') }}"
                         data-index="0"
                     />
@@ -75,7 +76,7 @@
                     <!-- hidden images list -->
                     <div class="images-data" style="display:none;">
                         @foreach($product->images as $img)
-                            <span>{{ $img->image }}</span>
+                            <span>{{ asset('storage/' . $img->image) }}</span>
                         @endforeach
                     </div>
 
@@ -87,9 +88,14 @@
 
                 <span class="price">₦{{ number_format($product->price) }}</span>
 
-                <button>Add to Cart</button>
+                </a>
+                
+                <button class="add-cart" onclick="addToCart({{ $product->id }})">
+                    Add to Cart
+                </button>
+
             </div>
-        </a>
+        
         @endforeach
     </div>
 </section>
@@ -115,7 +121,7 @@
             <a href="{{ url('/product/'.$item->product->slug) }}">
                 <img 
                     src="{{ $item->product->images->count() 
-                        ? asset($item->product->images[0]->image) 
+                        ? asset('storage/' .$item->product->images[0]->image) 
                         : asset('images/default.png') }}"
                     class="featured-slide {{ $index === 0 ? 'active' : '' }}"
                 >
@@ -146,11 +152,13 @@
 
 <script>
 function changeImage(button, direction) {
+
     const slider = button.parentElement;
     const img = slider.querySelector('.slider-image');
     const imagesData = slider.querySelectorAll('.images-data span');
 
     let images = Array.from(imagesData).map(el => el.innerText);
+
     let index = parseInt(img.dataset.index);
 
     index += direction;
@@ -158,7 +166,7 @@ function changeImage(button, direction) {
     if (index < 0) index = images.length - 1;
     if (index >= images.length) index = 0;
 
-    img.src = '{{ asset('') }}' + images[index];
+    img.src = images[index];
     img.dataset.index = index;
 }
 </script>

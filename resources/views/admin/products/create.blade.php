@@ -4,6 +4,15 @@
 
 <div class="card">
     <h2>Add Product</h2>
+    @if ($errors->any())
+        <div style="color:red; margin-bottom:10px;">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
 
     <form method="POST" action="/admin/products" enctype="multipart/form-data">
         @csrf
@@ -26,8 +35,9 @@
         </select>
 
         <br><br>
+        
+        <textarea name="description" required placeholder="Description"></textarea><br><br>
 
-        <textarea name="description" placeholder="Description"></textarea><br><br>
 
         <div id="image-wrapper">
             <div class="image-input">

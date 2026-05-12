@@ -21,8 +21,9 @@
     <!-- PRODUCTS (same as homepage) -->
     <div class="products">
         @forelse ($products as $product)
-        <a href="{{ url('/product/'.$product->slug) }}" class="card-link">
+       
             <div class="card">
+                <a href="{{ url('/product/'.$product->slug) }}" class="card-link">
                 <div class="img-box" data-product="{{ $product->id }}">
 
                     <button class="prev" onclick="changeImage(this, -1)">‹</button>
@@ -51,9 +52,13 @@
 
                 <span class="price">₦{{ number_format($product->price) }}</span>
 
-                <button>Add to Cart</button>
+                </a> 
+
+                <button class="add-cart" onclick="addToCart({{ $product->id }})">
+                    Add to Cart
+                </button>
             </div>
-        </a>    
+           
         @empty
             <p>No products found in this category.</p>
         @endforelse

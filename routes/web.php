@@ -12,7 +12,10 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Admin\FeaturedController;
-
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\Admin\OrderController as AdminOrderController;
 
 
 Route::get('/', [HomeController::class, 'index']);
@@ -26,6 +29,17 @@ Route::get('/category/{slug}', [CategoryController::class, 'show']);
 
 Route::get('/search-suggestions', [ProductController::class, 'suggestions']);
 Route::get('/search', [ProductController::class, 'search']);
+
+
+Route::post('/cart/add', [CartController::class, 'add']);
+Route::get('/cart', [CartController::class, 'index']);
+Route::post('/cart/increase', [CartController::class, 'increase']);
+Route::post('/cart/decrease', [CartController::class, 'decrease']);
+Route::post('/cart/remove', [CartController::class, 'remove']);
+
+Route::get('/checkout', [CheckoutController::class, 'index']);
+
+Route::get('/my-orders', [OrderController::class, 'index']);
 
 
 
@@ -49,6 +63,9 @@ Route::prefix('admin')
     Route::get('/categories', [AdminCategoryController::class, 'index']);
     Route::get('/categories/create', [AdminCategoryController::class, 'create']);
     Route::post('/categories', [AdminCategoryController::class, 'store']);
+    Route::get('/categories/{id}/edit', [AdminCategoryController::class, 'edit']);
+    Route::put('/categories/{id}', [AdminCategoryController::class, 'update']);
+    Route::delete('/categories/{id}', [AdminCategoryController::class, 'destroy']);
 
 
     Route::get('/reviews', [ReviewController::class, 'adminIndex']);
@@ -58,6 +75,14 @@ Route::prefix('admin')
     Route::get('/featured', [FeaturedController::class, 'index']);
     Route::post('/featured', [FeaturedController::class, 'store']);
     Route::delete('/featured/{id}', [FeaturedController::class, 'destroy']);
+
+
+    Route::get('/orders', [AdminOrderController::class, 'index']);
+    Route::get('/orders/{id}', [AdminOrderController::class, 'show']);
+    Route::post('/orders/{id}/status', [AdminOrderController::class, 'updateStatus']);
+
+    
+
 });
 
 

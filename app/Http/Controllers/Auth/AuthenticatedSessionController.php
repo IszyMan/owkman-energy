@@ -27,6 +27,34 @@ class AuthenticatedSessionController extends Controller
         $request->authenticate();
 
         $request->session()->regenerate();
+        $userId = auth()->id();
+
+        if(session()->has('cart')) {
+
+            $sessionCart = session()->get('cart');
+
+            foreach($sessionCart as $item) {
+
+                $existing = \App\Models\Cart::where('user_id', $userId)
+                    ->where('product_id', $item['product_id'])
+                    ->first();
+
+                if($existing) {
+
+                    $existing->increment('quantity', $item['quantity']);
+
+                } else {
+
+                    \App\Models\Cart::create([
+                        'user_id' => $userId,
+                        'product_id' => $item['product_id'],
+                        'quantity' => $item['quantity']
+                    ]);
+                }
+            }
+
+            session()->forget('cart');
+        }
 
         return redirect()->intended('/');
     }
@@ -44,4 +72,7 @@ class AuthenticatedSessionController extends Controller
 
         return redirect('/');
     }
+
+
+    
 }

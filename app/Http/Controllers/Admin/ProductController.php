@@ -9,6 +9,7 @@ use App\Models\Product;
 use App\Models\Category; 
 use App\Models\ProductImage;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 
 class ProductController extends Controller
@@ -26,21 +27,22 @@ class ProductController extends Controller
 
 
         $request->validate([
-            'name' => 'required|string',
+            'name' => 'required|string|max:255',
             'price' => 'required|numeric',
             'stock' => 'required|integer',
-            'description' => 'nullable|string',
+            'category_id' => 'required|exists:categories,id',
+            'description' => 'required|string',
             'images.*' => 'image|mimes:jpg,jpeg,png,webp|max:2048',
             'replace_images.*' => 'image|mimes:jpg,jpeg,png,webp|max:2048',
         ]);
                 
-        $slug = Str::slug($request->name);
+        $baseSlug = Str::slug($request->name);
 
-        $original = $slug;
-        $count = 1;
-
+        $slug = $baseSlug;
+        $count = 2;
+        
         while (Product::where('slug', $slug)->exists()) {
-            $slug = $original . '-' . $count;
+            $slug = $baseSlug . '-' . $count;
             $count++;
         }
 
@@ -56,14 +58,13 @@ class ProductController extends Controller
 
         // Handle multiple images
         if ($request->hasFile('images')) {
-            foreach ($request->file('images') as $image) {
-
-                $filename = Str::uuid().'.'.$image->extension();
-                $image->move(public_path('storage/products'), $filename);
-
+            foreach ($request->file('images') as $file) {
+        
+                $path = $file->store('products', 'public');
+        
                 ProductImage::create([
                     'product_id' => $product->id,
-                    'image' => 'storage/products/'.$filename,
+                    'image' => $path
                 ]);
             }
         }
@@ -113,39 +114,33 @@ class ProductController extends Controller
         if ($request->hasFile('replace_images')) {
 
             foreach ($request->file('replace_images') as $imageId => $file) {
-
+        
                 $img = ProductImage::find($imageId);
-
+        
                 if ($img) {
-
+        
                     // delete old image
-                    $oldPath = public_path($img->image);
-                    if (file_exists($oldPath)) {
-                        unlink($oldPath);
-                    }
-
+                    Storage::disk('public')->delete($img->image);
+        
                     // upload new image
-                    $filename = Str::uuid().'.'.$file->extension();
-                    $file->move(public_path('storage/products'), $filename);
-
-                    // update record
+                    $path = $file->store('products', 'public');
+        
+                    // update database
                     $img->update([
-                        'image' => 'storage/products/'.$filename
+                        'image' => $path
                     ]);
                 }
             }
         }
 
         if ($request->hasFile('new_images')) {
-
             foreach ($request->file('new_images') as $file) {
-
-                $filename = Str::uuid().'.'.$file->extension();
-                $file->move(public_path('storage/products'), $filename);
-
+        
+                $path = $file->store('products', 'public');
+        
                 ProductImage::create([
                     'product_id' => $product->id,
-                    'image' => 'storage/products/'.$filename
+                    'image' => $path
                 ]);
             }
         }
@@ -155,17 +150,14 @@ class ProductController extends Controller
     public function destroy($id)
     {
         $product = Product::with('images')->findOrFail($id);
-
+    
         foreach ($product->images as $img) {
-            $oldPath = public_path($img->image);
-            if (file_exists($oldPath)) {
-                unlink($oldPath);
-            }
+            Storage::disk('public')->delete($img->image);
             $img->delete();
         }
-
+    
         $product->delete();
-
+    
         return redirect('/admin/products');
     }
 }

@@ -244,6 +244,21 @@
         </div>
 
 
+        <!-- ORDERS -->
+        <div class="dropdown">
+            <button class="dropdown-btn">🧾 Orders ▾</button>
+
+            <div class="dropdown-container">
+
+                <a href="/admin/orders"
+                class="{{ request()->is('admin/orders*') ? 'active' : '' }}">
+                    View Orders
+                </a>
+
+            </div>
+        </div>
+
+
         <a href="/admin/reviews" class="{{ request()->is('admin/reviews*') ? 'active' : '' }}">
             ⭐ Reviews
         </a>

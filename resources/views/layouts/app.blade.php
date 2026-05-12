@@ -34,12 +34,58 @@
 <body>
 
     <nav class="navbar">
-        <div class="logo">
-            <a href="{{ url('/') }}">
-                <img src="{{ asset('images/Owkman-Logo.png') }}" alt="Owkman Energy Logo">
-            </a>
-        </div>
 
+        <!-- TOP ROW (LOGO + CART + USER) -->
+        <div class="nav-top">
+
+            <div class="logo">
+                <a href="{{ url('/') }}">
+                    <img src="{{ asset('images/Owkman-Logo.png') }}" alt="Owkman Energy Logo">
+                </a>
+            </div>
+
+            <div class="nav-links">
+
+                <a href="/cart" class="cart-icon">
+                    <span class="cart-wrapper">
+                        🛒
+                        <span id="cart-count" class="cart-badge">
+                            {{ $cartCount ?? 0 }}
+                        </span>
+                    </span>
+                </a>
+
+                @auth
+                    <div class="user-menu">
+                        <span class="user-name" id="userToggle">
+                            Hi, {{ auth()->user()->name }} ▼
+                        </span>
+
+                        <div class="user-dropdown" id="userDropdown">
+                            <a href="{{ route('dashboard') }}">Dashboard</a>
+                            <a href="#">Orders</a>
+                            <a href="#">Profile</a>
+
+                            <hr>
+
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <button type="submit" class="logout-btn">Logout</button>
+                            </form>
+                        </div>
+                    </div>
+                @else
+                    <a href="{{ route('login') }}">Login</a>
+                    <a href="{{ route('register') }}">Sign Up</a>
+                @endauth
+
+            </div>
+
+        </div>
+        <!-- END TOP ROW -->
+
+
+        <!-- SEARCH (SECOND ROW) -->
         <div class="search-wrapper">
             <form class="search-form" method="GET" action="{{ url('/search') }}">
                 <input 
@@ -49,41 +95,12 @@
                     placeholder="Search products..."
                     autocomplete="off"
                 >
-
                 <button type="submit" class="search-btn">🔍</button>
             </form>
 
-            <!-- DROPDOWN -->
             <div id="searchResults" class="search-results"></div>
         </div>
 
-        <div class="nav-links">
-            <a href="#">Cart 🛒</a>
-
-            @auth
-              <div class="user-menu">
-                <span class="user-name" id="userToggle">
-                    Hi, {{ auth()->user()->name }} ▼
-                </span>
-
-                <div class="user-dropdown" id="userDropdown">
-                    <a href="{{ route('dashboard') }}">Dashboard</a>
-                    <a href="#">Orders</a>
-                    <a href="#">Profile</a>
-
-                    <hr>
-
-                    <form method="POST" action="{{ route('logout') }}">
-                        @csrf
-                        <button type="submit" class="logout-btn">Logout</button>
-                    </form>
-                </div>
-            </div>
-            @else
-                <a href="{{ route('login') }}">Login</a>
-                <a href="{{ route('register') }}">Sign Up</a>
-            @endauth
-        </div>
     </nav>
     <!-- PAGE CONTENT -->
     <main>
@@ -91,61 +108,82 @@
     </main>
 
     <!-- FOOTER -->
-    <footer class="footer">
-        <p>© {{ date('Y') }} Owkman Energy. All rights reserved.</p>
-    </footer>
+    @include('layouts.footer')
+
+
+    <div id="cartBar" class="cart-bar">
+
+        <div class="cart-bar-content">
+
+            <img id="cartBarImage" src="" />
+
+            <div class="cart-bar-text">
+                <p id="cartBarName"></p>
+                <small>Added to cart</small>
+            </div>
+
+            <div class="cart-bar-actions">
+                <a href="/cart" class="btn-view">View Cart</a>
+                <a href="/checkout" class="btn-checkout">Checkout</a>
+            </div>
+
+            <span onclick="closeCartBar()" class="close-bar">✕</span>
+
+        </div>
+
+    </div>
 
     <script>
-const input = document.getElementById('searchInput');
-const resultsBox = document.getElementById('searchResults');
+    const input = document.getElementById('searchInput');
+    const resultsBox = document.getElementById('searchResults');
 
-input.addEventListener('keyup', function () {
+    input.addEventListener('keyup', function () {
 
-    let query = this.value;
+        let query = this.value;
 
-    if (query.length < 2) {
-        resultsBox.style.display = "none";
-        return;
-    }
+        if (query.length < 2) {
+            resultsBox.style.display = "none";
+            return;
+        }
 
-    fetch(`/search-suggestions?q=${query}`)
-        .then(res => res.json())
-        .then(data => {
+        fetch(`/search-suggestions?q=${query}`)
+            .then(res => res.json())
+            .then(data => {
 
-            resultsBox.innerHTML = "";
+                resultsBox.innerHTML = "";
 
-            if (data.length === 0) {
-                resultsBox.innerHTML = "<div class='search-item'>No results</div>";
+                if (data.length === 0) {
+                    resultsBox.innerHTML = "<div class='search-item'>No results</div>";
+                    resultsBox.style.display = "block";
+                    return;
+                }
+
+                data.forEach(item => {
+                    let div = document.createElement('div');
+                    div.classList.add('search-item');
+
+                    div.innerHTML = `
+                        <img src="${item.image}" class="search-thumb">
+                        <span>${item.name}</span>
+                    `;
+
+                    div.onclick = () => {
+                        window.location.href = `/product/${item.slug}`;
+                    };
+
+                    resultsBox.appendChild(div);
+                });
+
                 resultsBox.style.display = "block";
-                return;
-            }
-
-            data.forEach(item => {
-                let div = document.createElement('div');
-                div.classList.add('search-item');
-
-                div.innerHTML = `
-                    <img src="${item.image}" class="search-thumb">
-                    <span>${item.name}</span>
-                `;
-
-                div.onclick = () => {
-                    window.location.href = `/product/${item.slug}`;
-                };
-
-                resultsBox.appendChild(div);
             });
+    });
 
-            resultsBox.style.display = "block";
-        });
-});
-
-// hide dropdown
-document.addEventListener('click', function (e) {
-    if (!e.target.closest('.search-wrapper')) {
-        resultsBox.style.display = "none";
-    }
-});
+    // hide dropdown
+    document.addEventListener('click', function (e) {
+        if (!e.target.closest('.search-wrapper')) {
+            resultsBox.style.display = "none";
+        }
+    });
 </script>
 
 
@@ -153,16 +191,83 @@ document.addEventListener('click', function (e) {
 const toggle = document.getElementById('userToggle');
 const dropdown = document.getElementById('userDropdown');
 
-toggle.addEventListener('click', function (e) {
-    e.stopPropagation();
-    dropdown.classList.toggle('active');
-});
+if (toggle && dropdown) {
 
-// close when clicking outside
-document.addEventListener('click', function () {
-    dropdown.classList.remove('active');
-});
+    toggle.addEventListener('click', function (e) {
+        e.stopPropagation();
+        dropdown.classList.toggle('active');
+    });
+
+    document.addEventListener('click', function () {
+        dropdown.classList.remove('active');
+    });
+}
 </script>
+
+
+
+<script>
+
+function addToCart(productId) {
+
+    fetch("/cart/add", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-TOKEN": "{{ csrf_token() }}"
+        },
+        body: JSON.stringify({ product_id: productId })
+    })
+    .then(res => res.json())
+    .then(data => {
+
+        // 1. update cart count
+        let cartCount = document.getElementById("cart-count");
+        if (cartCount) {
+            cartCount.innerText = data.cartCount;
+        }
+
+        // 2. show bottom cart bar
+        showCartBar(data.product);
+
+    });
+}
+
+function showCartBar(product) {
+
+    document.getElementById("cartBarImage").src = product.image;
+    document.getElementById("cartBarName").innerText = product.name;
+
+    document.getElementById("cartBar").classList.add("show");
+
+    // auto hide after 2minutes (optional)
+    setTimeout(() => {
+        closeCartBar();
+    }, 20000);
+}
+
+function closeCartBar() {
+    document.getElementById("cartBar").classList.remove("show");
+}
+
+</script>
+
+
+<script>
+function updateCartCount(count) {
+    const badge = document.getElementById("cart-count");
+
+    if (!badge) return;
+
+    badge.innerText = count;
+
+    badge.classList.remove("animate");
+    void badge.offsetWidth; // restart animation
+    badge.classList.add("animate");
+}
+</script>
+
+
 
 </body>
 

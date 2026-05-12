@@ -8,7 +8,7 @@
 
 @section('meta_image', asset(
     $product->images->first() 
-        ? $product->images->first()->image 
+        ? 'storage/' .$product->images->first()->image 
         : 'images/default.png'
 ))
 
@@ -39,7 +39,7 @@
                 <img id="mainProductImage"
                     src="{{ asset(
                         $product->images->first() 
-                            ? $product->images->first()->image 
+                            ? 'storage/' .$product->images->first()->image 
                             : 'images/default.png'
                     ) }}"
                     alt="{{ $product->name }}"
@@ -51,7 +51,7 @@
 
                 @foreach($product->images as $img)
                     <img
-                        src="{{ asset($img->image) }}"
+                        src="{{ asset('storage/' . $img->image) }}"
                         class="thumbnail"
                         alt="{{ $product->name }}"
                         onclick="changeMainImage(this)"
@@ -90,10 +90,13 @@
                 <button onclick="increaseQty()">+</button>
             </div>
 
+            
+
             <!-- ADD TO CART -->
-            <button class="add-cart">
+            <button class="add-cart" onclick="addToCart({{ $product->id }})">
                 Add to Cart
             </button>
+             
 
         </div>
 
@@ -106,8 +109,9 @@
 
     <div class="products">
         @foreach($relatedProducts as $item)
-            <a href="{{ url('/product/'.$item->slug) }}" class="card-link">
+            
                 <div class="card">
+                    <a href="{{ url('/product/'.$item->slug) }}" class="card-link">
                     <div class="img-box" data-product="{{ $item->id }}">
 
                     <button class="prev" onclick="changeImage(this, -1)">‹</button>
@@ -115,7 +119,7 @@
                     <img 
                         class="slider-image"
                         src="{{ $item->images->count() 
-                            ? asset($item->images[0]->image) 
+                            ? asset('storage/' .$item->images[0]->image) 
                             : asset('images/default.png') }}"
                         data-index="0"
                     />
@@ -132,9 +136,15 @@
                 </div>
                     <h3>{{ $item->name }}</h3>
                     <span class="price">₦{{ number_format($item->price) }}</span>
-                    <button>Add to Cart</button>
+                    </a>
+                    <form action="{{ url('/cart/add') }}" method="POST">
+                        @csrf
+
+                        <input type="hidden" name="product_id" value="{{ $product->id }}">
+                        <button type="submit">Add to Cart</button>
+                    </form>
                 </div>
-            </a>
+            
         @endforeach
     </div>
 </section>
@@ -145,8 +155,9 @@
 
     <div class="products">
         @foreach($latestProducts as $item)
-            <a href="{{ url('/product/'.$item->slug) }}" class="card-link">
+            
                 <div class="card">
+                    <a href="{{ url('/product/'.$item->slug) }}" class="card-link">
                     <div class="img-box" data-product="{{ $item->id }}">
 
                     <button class="prev" onclick="changeImage(this, -1)">‹</button>
@@ -154,7 +165,7 @@
                     <img 
                         class="slider-image"
                         src="{{ $item->images->count() 
-                            ? asset($item->images[0]->image) 
+                            ? asset('storage/' .$item->images[0]->image) 
                             : asset('images/default.png') }}"
                         data-index="0"
                     />
@@ -171,9 +182,16 @@
                 </div>
                     <h3>{{ $item->name }}</h3>
                     <span class="price">₦{{ number_format($item->price) }}</span>
-                    <button>Add to Cart</button>
+
+                    </a>
+                    <form action="{{ url('/cart/add') }}" method="POST">
+                        @csrf
+
+                        <input type="hidden" name="product_id" value="{{ $product->id }}">
+                        <button type="submit">Add to Cart</button>
+                    </form>
                 </div>
-            </a>
+            
         @endforeach
     </div>
 </section>
@@ -256,8 +274,9 @@
 
     <div class="products">
         @foreach($recentlyViewed as $item)
-            <a href="{{ url('/product/'.$item->slug) }}" class="card-link">
+            
                 <div class="card">
+                <a href="{{ url('/product/'.$item->slug) }}" class="card-link">
                     <div class="img-box" data-product="{{ $item->id }}">
 
                         <button class="prev" onclick="changeImage(this, -1)">‹</button>
@@ -265,7 +284,7 @@
                         <img 
                             class="slider-image"
                             src="{{ $item->images->count() 
-                                ? asset($item->images[0]->image) 
+                                ? asset('storage/' .$item->images[0]->image) 
                                 : asset('images/default.png') }}"
                             data-index="0"
                         />
@@ -282,9 +301,16 @@
                     </div>
                     <h3>{{ $item->name }}</h3>
                     <span class="price">₦{{ number_format($item->price) }}</span>
-                    <button>Add to Cart</button>
+                     </a>
+
+                    <form action="{{ url('/cart/add') }}" method="POST">
+                        @csrf
+
+                        <input type="hidden" name="product_id" value="{{ $product->id }}">
+                        <button type="submit">Add to Cart</button>
+                    </form>
                 </div>
-            </a>
+           
         @endforeach
     </div>
 </section>
