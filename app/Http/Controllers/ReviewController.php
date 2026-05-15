@@ -27,7 +27,8 @@ class ReviewController extends Controller
             'user_id' => auth()->id(),
             'rating' => $request->rating,
             'comment' => $request->comment,
-            'status' => 'pending'
+            'status' => 'pending',
+            'is_read' => false
         ]);
 
         return back()->with('success', 'Review submitted for approval');
@@ -37,7 +38,15 @@ class ReviewController extends Controller
     // ADMIN: LIST REVIEWS
     public function adminIndex()
     {
-        $reviews = Review::with('product', 'user')->latest()->get();
+        // mark all reviews as read when admin opens page
+        Review::where('is_read', false)->update([
+            'is_read' => true
+        ]);
+
+        $reviews = Review::with('product', 'user')
+            ->latest()
+            ->get();
+
         return view('admin.reviews.index', compact('reviews'));
     }
 

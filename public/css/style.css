@@ -6,10 +6,6 @@ body {
 }
 
 
-/* =========================
-   NAVBAR
-========================= */
-
 .navbar {
     display: flex;
     align-items: center;
@@ -26,318 +22,159 @@ body {
     z-index: 9999;
 }
 
-/* =========================
-   NAV TOP (LOGO + RIGHT SIDE)
-========================= */
-
-.nav-top {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-}
-
-/* =========================
-   LOGO
-========================= */
-
+/* LEFT */
 .logo {
     flex-shrink: 0;
 }
 
 .logo img {
     width: 120px;
-    height: auto;
     display: block;
 }
 
-/* =========================
-   SEARCH
-========================= */
-
+/* CENTER */
 .search-wrapper {
     flex: 1;
     max-width: 650px;
     position: relative;
 }
 
-/* CLEAN SEARCH FORM (NO DOUBLE BORDER) */
-.search-form {
-    display: flex;
-    align-items: center;
-
-    width: 100%;
-
-    background: #f5f5f5;
-
-    border: none;          /* 🔥 FIX DOUBLE LINE */
-    outline: none;
-
-    border-radius: 10px;
-
-    overflow: hidden;
-}
-
-.search-form input {
-    flex: 1;
-
-    border: none !important;
-    outline: none !important;
-    box-shadow: none !important;
-
-    background: transparent;
-
-    padding: 12px 15px;
-
-    font-size: 14px;
-
-    appearance: none;
-    -webkit-appearance: none;
-}
-
-.search-btn {
-    width: 50px;
-    height: 45px;
-
-    border: none;
-
-    background: black;
-    color: white;
-
-    cursor: pointer;
-
-    font-size: 16px;
-}
-
-/* SEARCH DROPDOWN */
-
-.search-results {
-    position: absolute;
-
-    top: 105%;
-    left: 0;
-    right: 0;
-
-    background: white;
-
-    border: 1px solid #eee;
-    border-radius: 10px;
-
-    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
-
-    display: none;
-
-    max-height: 320px;
-    overflow-y: auto;
-
-    z-index: 999;
-}
-
-/* =========================
-   NAV LINKS (RIGHT SIDE)
-========================= */
-
+/* RIGHT */
 .nav-links {
     display: flex;
     align-items: center;
     gap: 15px;
+    flex-shrink: 0;
 }
 
-.nav-links a {
-    text-decoration: none;
-    color: #111;
+/* USER MENU WRAPPER */
+.user-menu {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
 
+/* TRIGGER */
+.user-name {
     font-size: 14px;
     font-weight: 500;
-}
-
-/* =========================
-   CART
-========================= */
-
-.cart-icon {
-    position: relative;
-    display: flex;
-    align-items: center;
-}
-
-.cart-wrapper {
-    position: relative;
-
-    width: 42px;
-    height: 42px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    border-radius: 50%;
-
-    background: #f5f5f5;
-
-    font-size: 20px;
-
+    color: #111;
+    padding: 8px 10px;
+    border-radius: 6px;
     transition: 0.2s;
 }
 
-.cart-wrapper:hover {
-    background: #eee;
+.user-name:hover {
+    background: #f3f4f6;
 }
 
-.cart-badge {
-    position: absolute;
-
-    top: -5px;
-    right: -5px;
-
-    width: 18px;
-    height: 18px;
-
-    background: red;
-    color: white;
-
-    border-radius: 50%;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    font-size: 11px;
-    font-weight: bold;
-}
-
-/* =========================
-   USER MENU
-========================= */
-
-.user-menu {
-    position: relative;
-}
-
-.user-name {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-
-    cursor: pointer;
-
-    font-size: 14px;
-    font-weight: 600;
-}
-
-/* DROPDOWN */
-
+/* DROPDOWN (HIDDEN BY DEFAULT) */
 .user-dropdown {
     position: absolute;
-
-    top: 45px;
     right: 0;
+    top: 110%;
 
-    width: 220px;
-
+    width: 180px;
     background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
 
-    border-radius: 12px;
-
-    border: 1px solid #eee;
-
-    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-
-    padding: 10px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    padding: 8px 0;
 
     display: none;
-    flex-direction: column;
-
     z-index: 9999;
 }
 
-.user-dropdown.active {
-    display: flex;
+/* SHOW WHEN ACTIVE */
+.user-menu.active .user-dropdown {
+    display: block;
 }
 
+/* LINKS */
 .user-dropdown a {
-    padding: 10px;
-    border-radius: 8px;
-    transition: 0.2s;
+    display: block;
+    padding: 10px 14px;
+    text-decoration: none;
+    color: #111;
+    font-size: 14px;
 }
 
 .user-dropdown a:hover {
     background: #f5f5f5;
 }
 
-.user-dropdown hr {
-    border: none;
-    border-top: 1px solid #eee;
-    margin: 8px 0;
-}
-
+/* LOGOUT BUTTON */
 .logout-btn {
     width: 100%;
+    text-align: left;
+    padding: 10px 14px;
     border: none;
-    background: #fff0f0;
+    background: none;
     color: red;
-    padding: 10px;
-    border-radius: 8px;
     cursor: pointer;
+    font-size: 14px;
 }
 
 .logout-btn:hover {
-    background: red;
-    color: white;
+    background: #fef2f2;
 }
 
-/* =========================
-   📱 MOBILE FIX (FINAL CLEAN VERSION)
-========================= */
+/* divider */
+.user-dropdown hr {
+    margin: 6px 0;
+    border: none;
+    border-top: 1px solid #eee;
+}
 
+
+/* MOBILE */
 @media (max-width: 768px) {
 
     .navbar {
-        flex-direction: column;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
         gap: 10px;
+
         padding: 10px 12px;
     }
 
-    /* ROW 1: logo + cart + user */
-    .nav-top {
-        width: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
+    /* LOGO LEFT */
+    .logo {
+        order: 1;
     }
 
     .logo img {
         width: 100px;
     }
 
+    /* CART + LOGIN RIGHT */
     .nav-links {
-        gap: 10px;
+        order: 2;
         margin-left: auto;
-    }
 
-    .cart-wrapper {
-        width: 36px;
-        height: 36px;
-        font-size: 16px;
-    }
-
-    .user-name {
-        font-size: 13px;
-    }
-
-    /* ROW 2: SEARCH CENTER */
-    .search-wrapper {
-        width: 100%;
         display: flex;
-        justify-content: center;
+        align-items: center;
+        gap: 10px;
+    }
+
+    /* SEARCH BELOW */
+    .search-wrapper {
+        order: 3;
+
+        width: 100%;
+        max-width: 100%;
+
+        flex-basis: 100%;
     }
 
     .search-form {
         width: 100%;
-        max-width: 500px; /* centers nicely */
     }
 
     .search-form input {
-        font-size: 14px;
+        width: 100%;
     }
 }
 
@@ -729,7 +566,7 @@ body {
     padding: 20px;
 }
 
-
+/*SLIDER*/
 .featured-slider {
     padding: 10px 20px;
 }

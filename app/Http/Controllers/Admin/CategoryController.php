@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Category;
 use Illuminate\Support\Str;
 
+
 class CategoryController extends Controller
 {
     public function index()
@@ -57,5 +58,21 @@ class CategoryController extends Controller
         ]);
     
         return redirect('/admin/categories');
+    }
+
+    
+
+    public function destroy($id)
+    {
+        $category = Category::findOrFail($id);
+
+        // optional: prevent deleting if products exist
+        if ($category->products()->count() > 0) {
+            return back()->with('error', 'Cannot delete category with products.');
+        }
+
+        $category->delete();
+
+        return redirect()->back()->with('success', 'Category deleted successfully.');
     }
 }

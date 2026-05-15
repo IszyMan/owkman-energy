@@ -35,57 +35,14 @@
 
     <nav class="navbar">
 
-        <!-- TOP ROW (LOGO + CART + USER) -->
-        <div class="nav-top">
-
-            <div class="logo">
-                <a href="{{ url('/') }}">
-                    <img src="{{ asset('images/Owkman-Logo.png') }}" alt="Owkman Energy Logo">
-                </a>
-            </div>
-
-            <div class="nav-links">
-
-                <a href="/cart" class="cart-icon">
-                    <span class="cart-wrapper">
-                        🛒
-                        <span id="cart-count" class="cart-badge">
-                            {{ $cartCount ?? 0 }}
-                        </span>
-                    </span>
-                </a>
-
-                @auth
-                    <div class="user-menu">
-                        <span class="user-name" id="userToggle">
-                            Hi, {{ auth()->user()->name }} ▼
-                        </span>
-
-                        <div class="user-dropdown" id="userDropdown">
-                            <a href="{{ route('dashboard') }}">Dashboard</a>
-                            <a href="#">Orders</a>
-                            <a href="#">Profile</a>
-
-                            <hr>
-
-                            <form method="POST" action="{{ route('logout') }}">
-                                @csrf
-                                <button type="submit" class="logout-btn">Logout</button>
-                            </form>
-                        </div>
-                    </div>
-                @else
-                    <a href="{{ route('login') }}">Login</a>
-                    <a href="{{ route('register') }}">Sign Up</a>
-                @endauth
-
-            </div>
-
+        <!-- LEFT -->
+        <div class="logo">
+            <a href="{{ url('/') }}">
+                <img src="{{ asset('images/Owkman-Logo.png') }}" alt="Owkman Energy Logo">
+            </a>
         </div>
-        <!-- END TOP ROW -->
 
-
-        <!-- SEARCH (SECOND ROW) -->
+        <!-- CENTER -->
         <div class="search-wrapper">
             <form class="search-form" method="GET" action="{{ url('/search') }}">
                 <input 
@@ -95,10 +52,49 @@
                     placeholder="Search products..."
                     autocomplete="off"
                 >
+
                 <button type="submit" class="search-btn">🔍</button>
             </form>
 
             <div id="searchResults" class="search-results"></div>
+        </div>
+
+        <!-- RIGHT -->
+        <div class="nav-links">
+
+            <a href="/cart" class="cart-icon">
+                <span class="cart-wrapper">
+                    🛒
+                    <span id="cart-count" class="cart-badge">
+                        {{ $cartCount ?? 0 }}
+                    </span>
+                </span>
+            </a>
+
+            @auth
+                <div class="user-menu">
+                    <span class="user-name" id="userToggle">
+                        Hi, {{ auth()->user()->name }} ▼
+                    </span>
+
+                    <div class="user-dropdown" id="userDropdown">
+                        <a href="{{ route('dashboard') }}">Dashboard</a>
+                        <a href="#">Orders</a>
+                        <a href="#">Profile</a>
+
+                        <hr>
+
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button type="submit" class="logout-btn">Logout</button>
+                        </form>
+                    </div>
+                </div>
+            @else
+                <a href="{{ route('login') }}">Login</a>
+                <a href="{{ route('register') }}">Sign Up</a>
+            @endauth
+
         </div>
 
     </nav>
@@ -188,24 +184,22 @@
 
 
 <script>
-const toggle = document.getElementById('userToggle');
-const dropdown = document.getElementById('userDropdown');
+    const toggle = document.getElementById("userToggle");
+    const menu = document.querySelector(".user-menu");
 
-if (toggle && dropdown) {
-
-    toggle.addEventListener('click', function (e) {
-        e.stopPropagation();
-        dropdown.classList.toggle('active');
+    toggle.addEventListener("click", () => {
+        menu.classList.toggle("active");
     });
 
-    document.addEventListener('click', function () {
-        dropdown.classList.remove('active');
+    document.addEventListener("click", (e) => {
+        if (!menu.contains(e.target)) {
+            menu.classList.remove("active");
+        }
     });
-}
 </script>
 
 
-
+<!--ADD TO CART SCRIPT-->
 <script>
 
 function addToCart(productId) {

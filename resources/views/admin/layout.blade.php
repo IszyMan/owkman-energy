@@ -81,6 +81,18 @@
         font-size: 14px;
     }
 
+    .badge {
+        background: red;
+        color: white;
+        font-size: 12px;
+        padding: 3px 7px;
+        border-radius: 50px;
+        margin-left: 8px;
+        display: inline-block;
+        min-width: 20px;
+        text-align: center;
+    }
+
     .dropdown {
     margin-bottom: 10px;
     }
@@ -254,6 +266,9 @@
                 class="{{ request()->is('admin/orders*') ? 'active' : '' }}">
                     View Orders
                 </a>
+                 @if($ordersCount > 0)
+                    <span class="badge">{{ $ordersCount }}</span>
+                @endif
 
             </div>
         </div>
@@ -261,6 +276,9 @@
 
         <a href="/admin/reviews" class="{{ request()->is('admin/reviews*') ? 'active' : '' }}">
             ⭐ Reviews
+            @if($reviewsCount > 0)
+                <span class="badge">{{ $reviewsCount }}</span>
+            @endif
         </a>
 
         <a href="/admin/featured" class="{{ request()->is('admin/featured*') ? 'active' : '' }}">

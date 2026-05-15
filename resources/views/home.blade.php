@@ -2,7 +2,7 @@
 
 @section('content')
 
-<!-- FEATURED SLIDER -->
+<!-- FEATURED SLIDER 
 <section class="featured-slider">
     <h2>🔥 Trending Products</h2>
     <div class="slider-box">
@@ -19,7 +19,7 @@
         @endforeach
 
     </div>
-</section>
+</section>-->
 
 <!-- CATEGORIES -->
 
@@ -148,7 +148,7 @@
 
 
 
-
+<!--IMAGE THUMBNAIL SCRIPT-->
 
 <script>
 function changeImage(button, direction) {
@@ -173,17 +173,31 @@ function changeImage(button, direction) {
 
 
 <script>
-let slides = document.querySelectorAll('.featured-slide');
-let index = 0;
+document.addEventListener("DOMContentLoaded", () => {
 
-setInterval(() => {
-    slides[index].classList.remove('active');
+    const slides = document.querySelectorAll('.featured-slide');
+    if (!slides.length) return;
 
-    index++;
-    if (index >= slides.length) index = 0;
+    let index = 0;
 
-    slides[index].classList.add('active');
-}, 3000);
+    // ensure only first is active
+    slides.forEach((s, i) => {
+        s.classList.toggle('active', i === 0);
+    });
+
+    setInterval(() => {
+
+        const current = slides[index];
+        index = (index + 1) % slides.length;
+        const next = slides[index];
+
+        // switch without creating a "blank frame"
+        current.classList.remove('active');
+        next.classList.add('active');
+
+    }, 3000);
+
+});
 </script>
 
 @endsection

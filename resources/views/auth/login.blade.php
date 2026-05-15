@@ -8,7 +8,7 @@
         <!-- Email Address -->
         <div>
             <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
+            <x-text-input id="email" class="block w-full mt-1 px-3 py-2 border border-gray-500 bg-white text-black rounded-md shadow-sm focus:border-black focus:ring-black" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
 
@@ -16,7 +16,7 @@
         <div class="mt-4">
             <x-input-label for="password" :value="__('Password')" />
 
-            <x-text-input id="password" class="block mt-1 w-full"
+            <x-text-input id="password" class="block w-full mt-1 px-3 py-2 border border-gray-500 bg-white text-black rounded-md shadow-sm focus:border-black focus:ring-black"
                             type="password"
                             name="password"
                             required autocomplete="current-password" />
@@ -42,6 +42,15 @@
             <x-primary-button class="ms-3">
                 {{ __('Log in') }}
             </x-primary-button>
+        </div>
+
+        <div class="mt-6 text-center text-sm text-gray-600">
+            Don't have an account?
+            
+            <a href="{{ route('register') }}"
+            class="font-semibold text-indigo-600 hover:text-indigo-800">
+                Sign Up
+            </a>
         </div>
     </form>
 </x-guest-layout>
