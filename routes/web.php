@@ -37,7 +37,9 @@ Route::post('/cart/increase', [CartController::class, 'increase']);
 Route::post('/cart/decrease', [CartController::class, 'decrease']);
 Route::post('/cart/remove', [CartController::class, 'remove']);
 
-Route::get('/checkout', [CheckoutController::class, 'index']);
+Route::get('/checkout', [CheckoutController::class, 'index'])
+    ->middleware('auth')
+    ->name('checkout');
 
 Route::get('/my-orders', [OrderController::class, 'index']);
 

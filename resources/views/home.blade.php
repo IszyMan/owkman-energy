@@ -59,34 +59,25 @@
         
             <div class="card">
                 <a href="{{ url('/product/'.$product->slug) }}" class="card-link">
-                <div class="img-box" data-product="{{ $product->id }}">
+                    <div class="img-box" data-product="{{ $product->id }}">
 
-                    <button class="prev" onclick="changeImage(this, -1)">‹</button>
+                        
 
-                    <img 
-                        class="slider-image"
-                        src="{{ $product->images->count() 
-                            ? asset('storage/' .$product->images[0]->image) 
-                            : asset('images/default.png') }}"
-                        data-index="0"
-                    />
+                        <img 
+                            class="slider-image"
+                            src="{{ $product->images->count() 
+                                ? asset('storage/' .$product->images[0]->image) 
+                                : asset('images/default.png') }}"
+                            data-index="0"
+                        />
 
-                    <button class="next" onclick="changeImage(this, 1)">›</button>
-
-                    <!-- hidden images list -->
-                    <div class="images-data" style="display:none;">
-                        @foreach($product->images as $img)
-                            <span>{{ asset('storage/' . $img->image) }}</span>
-                        @endforeach
                     </div>
 
-                </div>
+                    <h3>{{ $product->name }}</h3>
 
-                <h3>{{ $product->name }}</h3>
+                    <p>{{ Str::limit($product->description, 50) }}</p>
 
-                <p>{{ Str::limit($product->description, 50) }}</p>
-
-                <span class="price">₦{{ number_format($product->price) }}</span>
+                    <span class="price">₦{{ number_format($product->price) }}</span>
 
                 </a>
                 
@@ -148,28 +139,6 @@
 
 
 
-<!--IMAGE THUMBNAIL SCRIPT-->
-
-<script>
-function changeImage(button, direction) {
-
-    const slider = button.parentElement;
-    const img = slider.querySelector('.slider-image');
-    const imagesData = slider.querySelectorAll('.images-data span');
-
-    let images = Array.from(imagesData).map(el => el.innerText);
-
-    let index = parseInt(img.dataset.index);
-
-    index += direction;
-
-    if (index < 0) index = images.length - 1;
-    if (index >= images.length) index = 0;
-
-    img.src = images[index];
-    img.dataset.index = index;
-}
-</script>
 
 
 <script>

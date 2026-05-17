@@ -24,27 +24,21 @@
        
             <div class="card">
                 <a href="{{ url('/product/'.$product->slug) }}" class="card-link">
-                <div class="img-box" data-product="{{ $product->id }}">
+                    <div class="img-box" data-product="{{ $product->id }}">
 
-                    <button class="prev" onclick="changeImage(this, -1)">‹</button>
+                        
 
-                    <img 
-                        class="slider-image"
-                        src="{{ $product->images->count() 
-                            ? asset('storage/' . $product->images[0]->image) 
-                            : asset('images/default.png') }}"
-                        data-index="0"
-                    />
+                        <img 
+                            class="slider-image"
+                            src="{{ $product->images->count() 
+                                ? asset('storage/' . $product->images[0]->image) 
+                                : asset('images/default.png') }}"
+                            data-index="0"
+                        />
 
-                    <button class="next" onclick="changeImage(this, 1)">›</button>
+                        
 
-                    <div class="images-data" style="display:none;">
-                        @foreach($product->images as $img)
-                            <span>{{ $img->image }}</span>
-                        @endforeach
                     </div>
-
-                </div>
 
                 <h3>{{ $product->name }}</h3>
 
@@ -98,35 +92,31 @@
 
     <div class="products">
         @foreach($latestProducts as $item)
-            <a href="{{ url('/product/'.$item->slug) }}" class="card-link">
+            
                 <div class="card">
-                    <div class="img-box" data-product="{{ $item->id }}">
+                    <a href="{{ url('/product/'.$item->slug) }}" class="card-link">
+                        <div class="img-box" data-product="{{ $item->id }}">
 
-                    <button class="prev" onclick="changeImage(this, -1)">‹</button>
+                    
 
-                    <img 
-                        class="slider-image"
-                        src="{{ $item->images->count() 
-                            ? asset('storage/' . $item->images[0]->image) 
-                            : asset('images/default.png') }}"
-                        data-index="0"
-                    />
+                        <img 
+                            class="slider-image"
+                            src="{{ $item->images->count() 
+                                ? asset('storage/' . $item->images[0]->image) 
+                                : asset('images/default.png') }}"
+                            data-index="0"
+                        />
 
-                    <button class="next" onclick="changeImage(this, 1)">›</button>
 
-                    <!-- hidden images list -->
-                    <div class="images-data" style="display:none;">
-                        @foreach($item->images as $img)
-                            <span>{{ $img->image }}</span>
-                        @endforeach
                     </div>
-
+                        <h3>{{ $item->name }}</h3>
+                        <span class="price">₦{{ number_format($item->price) }}</span>
+                    </a>
+                     <button class="add-cart" onclick="addToCart({{ $item->id }})">
+                        Add to Cart
+                    </button>
                 </div>
-                    <h3>{{ $item->name }}</h3>
-                    <span class="price">₦{{ number_format($item->price) }}</span>
-                    <button>Add to Cart</button>
-                </div>
-            </a>
+            
         @endforeach
     </div>
 </section>

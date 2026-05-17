@@ -114,35 +114,24 @@
                     <a href="{{ url('/product/'.$item->slug) }}" class="card-link">
                     <div class="img-box" data-product="{{ $item->id }}">
 
-                    <button class="prev" onclick="changeImage(this, -1)">‹</button>
+                        
 
-                    <img 
-                        class="slider-image"
-                        src="{{ $item->images->count() 
-                            ? asset('storage/' .$item->images[0]->image) 
-                            : asset('images/default.png') }}"
-                        data-index="0"
-                    />
+                        <img 
+                            class="slider-image"
+                            src="{{ $item->images->count() 
+                                ? asset('storage/' .$item->images[0]->image) 
+                                : asset('images/default.png') }}"
+                            data-index="0"
+                        />
 
-                    <button class="next" onclick="changeImage(this, 1)">›</button>
 
-                    <!-- hidden images list -->
-                    <div class="images-data" style="display:none;">
-                        @foreach($item->images as $img)
-                            <span>{{ $img->image }}</span>
-                        @endforeach
                     </div>
-
-                </div>
                     <h3>{{ $item->name }}</h3>
                     <span class="price">₦{{ number_format($item->price) }}</span>
                     </a>
-                    <form action="{{ url('/cart/add') }}" method="POST">
-                        @csrf
-
-                        <input type="hidden" name="product_id" value="{{ $product->id }}">
-                        <button type="submit">Add to Cart</button>
-                    </form>
+                    <button class="add-cart" onclick="addToCart({{ $item->id }})">
+                        Add to Cart
+                    </button>
                 </div>
             
         @endforeach
@@ -158,38 +147,24 @@
             
                 <div class="card">
                     <a href="{{ url('/product/'.$item->slug) }}" class="card-link">
-                    <div class="img-box" data-product="{{ $item->id }}">
+                    <div class="img-box" data-product="{{ $item->id }}">                    
 
-                    <button class="prev" onclick="changeImage(this, -1)">‹</button>
+                        <img 
+                            class="slider-image"
+                            src="{{ $item->images->count() 
+                                ? asset('storage/' .$item->images[0]->image) 
+                                : asset('images/default.png') }}"
+                            data-index="0"
+                        />
 
-                    <img 
-                        class="slider-image"
-                        src="{{ $item->images->count() 
-                            ? asset('storage/' .$item->images[0]->image) 
-                            : asset('images/default.png') }}"
-                        data-index="0"
-                    />
-
-                    <button class="next" onclick="changeImage(this, 1)">›</button>
-
-                    <!-- hidden images list -->
-                    <div class="images-data" style="display:none;">
-                        @foreach($item->images as $img)
-                            <span>{{ $img->image }}</span>
-                        @endforeach
                     </div>
-
-                </div>
                     <h3>{{ $item->name }}</h3>
                     <span class="price">₦{{ number_format($item->price) }}</span>
 
                     </a>
-                    <form action="{{ url('/cart/add') }}" method="POST">
-                        @csrf
-
-                        <input type="hidden" name="product_id" value="{{ $product->id }}">
-                        <button type="submit">Add to Cart</button>
-                    </form>
+                    <button class="add-cart" onclick="addToCart({{ $item->id }})">
+                        Add to Cart
+                    </button>
                 </div>
             
         @endforeach
@@ -277,9 +252,7 @@
             
                 <div class="card">
                 <a href="{{ url('/product/'.$item->slug) }}" class="card-link">
-                    <div class="img-box" data-product="{{ $item->id }}">
-
-                        <button class="prev" onclick="changeImage(this, -1)">‹</button>
+                    <div class="img-box" data-product="{{ $item->id }}">                        
 
                         <img 
                             class="slider-image"
@@ -289,26 +262,14 @@
                             data-index="0"
                         />
 
-                        <button class="next" onclick="changeImage(this, 1)">›</button>
-
-                        <!-- hidden images list -->
-                        <div class="images-data" style="display:none;">
-                            @foreach($item->images as $img)
-                                <span>{{ $img->image }}</span>
-                            @endforeach
-                        </div>
-
                     </div>
                     <h3>{{ $item->name }}</h3>
                     <span class="price">₦{{ number_format($item->price) }}</span>
                      </a>
 
-                    <form action="{{ url('/cart/add') }}" method="POST">
-                        @csrf
-
-                        <input type="hidden" name="product_id" value="{{ $product->id }}">
-                        <button type="submit">Add to Cart</button>
-                    </form>
+                    <button class="add-cart" onclick="addToCart({{ $item->id }})">
+                        Add to Cart
+                    </button>
                 </div>
            
         @endforeach

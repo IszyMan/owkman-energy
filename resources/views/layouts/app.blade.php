@@ -114,8 +114,13 @@
             <img id="cartBarImage" src="" />
 
             <div class="cart-bar-text">
-                <p id="cartBarName"></p>
                 <small>Added to cart</small>
+
+                <p id="cartBarName"></p>
+
+                <!--<span class="cart-bar-count">
+                    {{ $cartCount ?? 0 }} item(s) in cart
+                </span>-->
             </div>
 
             <div class="cart-bar-actions">

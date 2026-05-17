@@ -2,6 +2,12 @@
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
+    @if (request('redirect'))
+        <div style="background:#fff3cd;padding:10px;border-radius:6px;margin-bottom:15px;">
+            Please login before you can checkout.
+        </div>
+    @endif
+
     <form method="POST" action="{{ route('login') }}">
         @csrf
 

@@ -26,7 +26,7 @@ class ViewServiceProvider extends ServiceProvider
 
             $view->with([
                 'ordersCount' => Order::where('status', 'pending')->count(),
-                'reviewsCount' => Review::where('is_read', false)->count(),
+                'reviewsCount' => Review::where('is_read', 0)->count(),
             ]);
 
         });

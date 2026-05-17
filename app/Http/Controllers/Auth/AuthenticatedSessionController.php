@@ -56,7 +56,7 @@ class AuthenticatedSessionController extends Controller
             session()->forget('cart');
         }
 
-        return redirect()->intended('/');
+        return redirect()->intended('/checkout');
     }
 
     /**
