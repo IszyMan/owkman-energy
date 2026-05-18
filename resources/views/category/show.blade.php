@@ -105,6 +105,8 @@
                                 ? asset('storage/' . $item->images[0]->image) 
                                 : asset('images/default.png') }}"
                             data-index="0"
+                            loading="lazy"
+                            alt="{{ $item->name }}"
                         />
 
 

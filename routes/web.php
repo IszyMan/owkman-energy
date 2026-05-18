@@ -16,6 +16,8 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\Admin\OrderController as AdminOrderController;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Http\Request;
 
 
 Route::get('/', [HomeController::class, 'index']);
@@ -38,10 +40,23 @@ Route::post('/cart/decrease', [CartController::class, 'decrease']);
 Route::post('/cart/remove', [CartController::class, 'remove']);
 
 Route::get('/checkout', [CheckoutController::class, 'index'])
-    ->middleware('auth')
-    ->name('checkout');
+    ->middleware(['auth', 'verified']);   
 
 Route::get('/my-orders', [OrderController::class, 'index']);
+
+Route::get('/email/verify', function () {
+    return view('auth.verify-email');
+})->middleware('auth')->name('verification.notice');
+
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $request->fulfill();
+    return redirect('/dashboard');
+})->middleware(['auth', 'signed'])->name('verification.verify');
+
+Route::post('/email/verification-notification', function (Request $request) {
+    $request->user()->sendEmailVerificationNotification();
+    return back()->with('message', 'Verification link sent, check your mail!');
+})->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
 
 

@@ -43,6 +43,7 @@
                             : 'images/default.png'
                     ) }}"
                     alt="{{ $product->name }}"
+                    loading="lazy"
                 >
             </div>
 
@@ -122,6 +123,8 @@
                                 ? asset('storage/' .$item->images[0]->image) 
                                 : asset('images/default.png') }}"
                             data-index="0"
+                            loading="lazy"
+                            alt="{{ $product->name }}"
                         />
 
 
@@ -155,6 +158,8 @@
                                 ? asset('storage/' .$item->images[0]->image) 
                                 : asset('images/default.png') }}"
                             data-index="0"
+                            loading="lazy"
+                            alt="{{ $product->name }}"
                         />
 
                     </div>
@@ -260,6 +265,8 @@
                                 ? asset('storage/' .$item->images[0]->image) 
                                 : asset('images/default.png') }}"
                             data-index="0"
+                            loading="lazy"
+                            alt="{{ $product->name }}"
                         />
 
                     </div>

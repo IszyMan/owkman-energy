@@ -40,7 +40,7 @@
                 elseif ($category->slug == 'accessories') $icon = '⚡';
             @endphp
 
-            <a href="{{ url('/category/'.$category->slug) }}" class="cat">
+            <a href="{{ url('/category/'.$category->slug) }}" class="cat"> 
                 <span class="icon">{{ $icon }}</span>
                 <span class="name">{{ $category->name }}</span>
             </a>
@@ -69,6 +69,8 @@
                                 ? asset('storage/' .$product->images[0]->image) 
                                 : asset('images/default.png') }}"
                             data-index="0"
+                            loading="lazy"
+                            alt="{{ $product->name }}"
                         />
 
                     </div>
